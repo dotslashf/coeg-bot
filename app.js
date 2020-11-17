@@ -44,6 +44,20 @@ client.on('message', async message => {
 
     message.reply({ files: [imagePath] });
   }
+
+  if (command === 'fwb') {
+    const text = texts.slice(2).join(' ');
+
+    const imagePath = await generatorMeme.generateMeme('fwbase', text);
+
+    message.reply({ files: [imagePath] });
+  }
+
+  if (command === 'coeg') {
+    const n = Math.floor(Math.random() * 3);
+    const replies = ['bjirrr', 'lorttt', 'jahhh'];
+    message.reply(replies[n]);
+  }
 });
 
 client.login(config.BOT_TOKEN);

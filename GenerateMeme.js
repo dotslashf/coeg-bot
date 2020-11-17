@@ -16,6 +16,9 @@ class GeneratorMeme {
     } else if (type === 'tubirfess') {
       image = config.image_file.tubirfess.original;
       outputImage = config.image_file.tubirfess.output;
+    } else if (type === 'fwbase') {
+      image = config.image_file.fwbase.original;
+      outputImage = config.image_file.fwbase.output;
     }
 
     await Jimp.read(image)
