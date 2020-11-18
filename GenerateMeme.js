@@ -16,8 +16,10 @@ class GeneratorMeme {
     } else if (type === 'fwbase') {
       image = config.image_file.fwbase.original;
       outputImage = config.image_file.fwbase.output;
-    }
-
+    } else if (type === 'diss') {
+    image = config.image_file.areajulid.original;
+    outputImage = config.image_file.areajulid.output;
+  }
     await Jimp.read(image)
       .then(async image => {
         await Jimp.loadFont('./font/segoeui.fnt').then(font => {

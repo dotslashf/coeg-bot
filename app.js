@@ -52,6 +52,12 @@ client.on('message', async message => {
     message.reply({ files: [imagePath] });
   }
 
+  if (command === 'diss') {
+    const text = texts.slice(2).join(' ');
+    const imagePath = await generatorMeme.generateMeme('diss', text);
+    message.reply({ files: [imagePath] });
+  }
+
   if (command === 'coeg') {
     const n = Math.floor(Math.random() * 3);
     const replies = ['bjirrr', 'lorttt', 'jahhh'];
