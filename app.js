@@ -3,7 +3,7 @@ const config = require('./config.json');
 const Mock = require('./meme/mock');
 const GeneratorMeme = require('./GenerateMeme');
 const GeneratorVideo = require('./GenerateVideo');
-const { sleep, downloadImage } = require('./utility/helper');
+const { downloadImage } = require('./utility/helper');
 
 const client = new Discord.Client();
 const generatorMeme = new GeneratorMeme();
@@ -22,6 +22,13 @@ client.on('message', async message => {
   const commandBody = message.content.slice(prefix.length);
   const texts = commandBody.split(' ');
   const command = texts[1].toLowerCase();
+
+  if (!config.command_list.includes(command)) {
+    console.log(`Command ${command} is not recognized!`);
+    return;
+  }
+
+  console.log(`Executing command: ${command}`);
 
   if (command === 'mock') {
     const text = texts.slice(2).join(' ');
@@ -63,10 +70,23 @@ client.on('message', async message => {
     }
 
     await downloadImage(url);
-    const generatorImage = new GeneratorVideo(
-      './audio/laugh.mp3',
-      './img/imgAudio.png'
-    );
+    const generatorImage = new GeneratorVideo('ketawa', './img/imgAudio.png');
+    generatorImage.generateVideo(message);
+  }
+
+  if (command === 'badut') {
+    let url = null;
+
+    if (message.attachments.size > 0) {
+      message.attachments.map(attachment => {
+        url = attachment.url;
+      });
+    } else {
+      url = texts[texts.length - 1];
+    }
+
+    await downloadImage(url);
+    const generatorImage = new GeneratorVideo('badut', './img/imgAudio.png');
     generatorImage.generateVideo(message);
   }
 });
