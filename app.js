@@ -50,6 +50,18 @@ client.on('message', async message => {
     const replies = ['bjirrr', 'lorttt', 'jahhh'];
     message.reply(replies[n]);
   }
+  
+    if (command === 'bjirr') {
+    const n = Math.floor(Math.random() * 3);
+    const replies = ['yoi, vroohhh', 'coeg :v'];
+    message.reply(replies[n]);
+  }
+
+  if (command === 'buset') {
+    const n = Math.floor(Math.random() * 3);
+    const replies = ['lortt, #anjayburik', 'njir'];
+    message.reply(replies[n]);
+  }
 
   if (command === 'ketawa') {
     let url = null;
