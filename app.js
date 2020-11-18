@@ -138,6 +138,7 @@ client.on('message', async message => {
     await downloadImage(url);
     const generatorImage = new GeneratorVideo('sad', './img/imgAudio.png');
     generatorImage.generateVideo(message);
+  }
 });
 
 client.login(config.BOT_TOKEN);
