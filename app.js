@@ -3,6 +3,7 @@ const config = require('./config.json');
 const Mock = require('./meme/mock');
 const GeneratorMeme = require('./GenerateMeme');
 const GeneratorVideo = require('./GenerateVideo');
+const GeneratorRank = require('./GenerateRank');
 const { downloadImage, countCoeg } = require('./utility/helper');
 const {
   fire,
@@ -13,7 +14,7 @@ const {
 
 const client = new Discord.Client();
 const generatorMeme = new GeneratorMeme();
-const db = fire.database();
+const generatorRank = new GeneratorRank();
 
 const prefix = config.prefix;
 
@@ -136,7 +137,14 @@ client.on('message', async message => {
       })
       .indexOf(sender_id);
 
-    message.reply(`Coegmu udah sebanyak ${coegCount} dan Rankmu ${pos + 1}`);
+    pos += 1;
+
+    const imageRankPath = await generatorRank.generateRank(
+      `@${message.author.username}`,
+      `${coegCount.toString()}`,
+      `${pos.toString()}`
+    );
+    message.reply({ files: [imageRankPath] });
   }
 });
 
