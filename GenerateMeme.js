@@ -41,7 +41,7 @@ class GeneratorMeme {
       .catch(err => {
         console.log('Generate meme: ' + err);
       });
-    await sleep(100);
+    await sleep(50);
     return outputImage;
   }
 }

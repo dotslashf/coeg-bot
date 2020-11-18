@@ -3,10 +3,17 @@ const config = require('./config.json');
 const Mock = require('./meme/mock');
 const GeneratorMeme = require('./GenerateMeme');
 const GeneratorVideo = require('./GenerateVideo');
-const { downloadImage } = require('./utility/helper');
+const { downloadImage, countCoeg } = require('./utility/helper');
+const {
+  fire,
+  saveDataCoeg,
+  getDataCoeg,
+  rankCoeg,
+} = require('./utility/firebase');
 
 const client = new Discord.Client();
 const generatorMeme = new GeneratorMeme();
+const db = fire.database();
 
 const prefix = config.prefix;
 
@@ -21,6 +28,8 @@ client.on('message', async message => {
 
   const commandBody = message.content.slice(prefix.length);
   const texts = commandBody.split(' ');
+  if (texts.length <= 1) return;
+
   const command = texts[1].toLowerCase();
 
   if (!config.command_list.includes(command)) {
@@ -107,6 +116,44 @@ client.on('message', async message => {
     const generatorImage = new GeneratorVideo('badut', './img/imgAudio.png');
     await generatorImage.generateVideo(message);
   }
+
+  if (command === 'rank') {
+    const sender_id = message.author.id;
+    const coegCount = await getDataCoeg(sender_id);
+    const coegTotal = await rankCoeg();
+    let results = [];
+    Promise.all(
+      Object.keys(coegTotal).map(key => {
+        results.push({ key: key, value: coegTotal[key].counter });
+      })
+    );
+    let resultsSorted = results.sort((a, b) => {
+      return b.value - a.value;
+    });
+    var pos = resultsSorted
+      .map(x => {
+        return x.key;
+      })
+      .indexOf(sender_id);
+
+    message.reply(`Coegmu udah sebanyak ${coegCount} dan Rankmu ${pos + 1}`);
+  }
 });
 
-client.login(config.BOT_TOKEN);
+client.on('message', async message => {
+  if (message.author.bot) return;
+
+  if (message.content.startsWith(prefix)) return;
+
+  if (message.content.includes('coeg') || message.content.includes('Coeg')) {
+    const sender_id = message.author.id;
+    const username = message.author.username;
+
+    const counter = await getDataCoeg(sender_id);
+    const coegCountResult = countCoeg(message.content.split(' '));
+
+    saveDataCoeg(sender_id, username, counter + coegCountResult);
+  }
+});
+
+client.login(config.BOT_TOKEN.dev);

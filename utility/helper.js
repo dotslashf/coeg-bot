@@ -16,4 +16,15 @@ const downloadImage = async url => {
   );
 };
 
-module.exports = { sleep, downloadImage };
+const countCoeg = texts => {
+  var result = 0;
+  const n = Math.ceil(Math.random() * 3);
+  texts.map(text => {
+    if (text === 'coeg' || text === 'Coeg') {
+      result += 1;
+    }
+  });
+  return result <= n ? result : n;
+};
+
+module.exports = { sleep, downloadImage, countCoeg };

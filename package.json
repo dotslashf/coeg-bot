@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.4.1",
+    "firebase": "^8.0.2",
     "jimp": "^0.16.1",
     "node-fetch": "^2.6.1",
     "videoshow": "^0.1.12"
