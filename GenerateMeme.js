@@ -1,5 +1,5 @@
 const Jimp = require('jimp');
-const { sleep } = require('./helper');
+const { sleep } = require('./utility/helper');
 const config = require('./config.json');
 
 class GeneratorMeme {
@@ -28,6 +28,7 @@ class GeneratorMeme {
             140,
             {
               text: caption,
+              alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
             },
             image.bitmap.width,
             image.bitmap.height
