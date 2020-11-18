@@ -29,14 +29,6 @@ client.on('message', async message => {
     message.reply({ files: [imagePath] });
   }
 
-  if (command === 'joko') {
-    const text = texts.slice(2).join(' ');
-
-    const imagePath = await generatorMeme.generateMeme('jokowi', text);
-
-    message.reply({ files: [imagePath] });
-  }
-
   if (command === 'tubir') {
     const text = texts.slice(2).join(' ');
 

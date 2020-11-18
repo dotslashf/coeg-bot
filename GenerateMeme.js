@@ -10,9 +10,6 @@ class GeneratorMeme {
     if (type === 'mocthistweet') {
       image = config.image_file.mockthistweet.original;
       outputImage = config.image_file.mockthistweet.output;
-    } else if (type === 'jokowi') {
-      image = config.image_file.jokowi.original;
-      outputImage = config.image_file.jokowi.output;
     } else if (type === 'tubirfess') {
       image = config.image_file.tubirfess.original;
       outputImage = config.image_file.tubirfess.output;
