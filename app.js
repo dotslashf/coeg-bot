@@ -123,22 +123,6 @@ client.on('message', async message => {
     const generatorImage = new GeneratorVideo('sedih', './img/imgAudio.png');
     generatorImage.generateVideo(message);
   }
-
-  if (command === 'sedih banget') {
-    let url = null;
-
-    if (message.attachments.size > 0) {
-      message.attachments.map(attachment => {
-        url = attachment.url;
-      });
-    } else {
-      url = texts[texts.length - 1];
-    }
-
-    await downloadImage(url);
-    const generatorImage = new GeneratorVideo('sedih banget', './img/imgAudio.png');
-    generatorImage.generateVideo(message);
-  }
 });
 
 client.login(config.BOT_TOKEN);
