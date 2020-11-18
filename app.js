@@ -63,8 +63,8 @@ client.on('message', async message => {
     const replies = ['bjirrr', 'lorttt', 'jahhh'];
     message.reply(replies[n]);
   }
-  
-    if (command === 'bjirr') {
+
+  if (command === 'bjirr') {
     const n = Math.floor(Math.random() * 3);
     const replies = ['yoi, vroohhh', 'coeg :v'];
     message.reply(replies[n]);
@@ -89,7 +89,7 @@ client.on('message', async message => {
 
     await downloadImage(url);
     const generatorImage = new GeneratorVideo('ketawa', './img/imgAudio.png');
-    generatorImage.generateVideo(message);
+    await generatorImage.generateVideo(message);
   }
 
   if (command === 'badut') {
@@ -105,7 +105,7 @@ client.on('message', async message => {
 
     await downloadImage(url);
     const generatorImage = new GeneratorVideo('badut', './img/imgAudio.png');
-    generatorImage.generateVideo(message);
+    await generatorImage.generateVideo(message);
   }
 });
 

@@ -17,9 +17,9 @@ class GeneratorMeme {
       image = config.image_file.fwbase.original;
       outputImage = config.image_file.fwbase.output;
     } else if (type === 'diss') {
-    image = config.image_file.areajulid.original;
-    outputImage = config.image_file.areajulid.output;
-  }
+      image = config.image_file.areajulid.original;
+      outputImage = config.image_file.areajulid.output;
+    }
     await Jimp.read(image)
       .then(async image => {
         await Jimp.loadFont('./font/segoeui.fnt').then(font => {
@@ -32,7 +32,7 @@ class GeneratorMeme {
               text: caption,
               alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
             },
-            image.bitmap.width,
+            image.bitmap.width - 65,
             image.bitmap.height
           );
           image.write(outputImage);
