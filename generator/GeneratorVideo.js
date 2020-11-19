@@ -1,11 +1,11 @@
 const videoshow = require('videoshow');
-const config = require('./config.json');
+const config = require('../config.js');
 
 class VideoGenerator {
   constructor(type, image) {
     this.image = [image];
-    this.audio = config.imgToVideoSetting[type].audio;
-    this.setting = config.imgToVideoSetting[type].setting;
+    this.audio = config.IMG_TO_VIDEO_SETTING[type].audio;
+    this.setting = config.IMG_TO_VIDEO_SETTING[type].setting;
   }
 
   async generateVideo(message) {
