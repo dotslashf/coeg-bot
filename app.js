@@ -59,38 +59,44 @@ client.on('message', async message => {
   }
 
   if (command === 'cringe') {
+    const n = Math.floor(Math.random() * 12);
+    const imagePath = ['cringe1.png', 'cringe2.png', 'cringe3.png', 'cringe4.png', 'cringe5.png', 'cringe6.jpg', 'cringe7.jpg', 'cringe8.jpg', 'cringe9.jpg', 'cringe10.jpg', 'cringe11.jpg', 'cringe12.jpg'];
+    message.reply({files: [imagePath[n]]});
+  }
+
+  if (command === 'elit') {
     const n = Math.floor(Math.random() * 10);
-    const imagePath = ['cringe1.png', 'cringe2.png', 'cringe3.png', 'cringe4.png', 'cringe5.png', 'cringe6.jpg', 'cringe7.jpg', 'cringe8.jpg', 'cringe9.jpg', 'cringe10.jpg'];
+    const imagePath = ['elit1.jpg', 'elit2.jpg', 'elit3.jpg', 'elit4.jpg', 'elit5.jpg', 'elit6.jpg', 'elit7.jpg', 'elit8.jpg', 'elit9.jpg', 'elit10.jpg'];
     message.reply({files: [imagePath[n]]});
   }
 
   if (command === 'coeg') {
-    const n = Math.floor(Math.random() * 3);
-    const replies = ['bjirrr', 'lorttt', 'jahhh'];
+    const n = Math.floor(Math.random() * 5);
+    const replies = ['bjirrr', 'lorttt', 'jahhh', 'hadah', 'yoi bro'];
     message.reply(replies[n]);
   }
   
     if (command === 'bjirr') {
-    const n = Math.floor(Math.random() * 3);
-    const replies = ['yoi', 'vroohhh', 'coeg :V'];
+    const n = Math.floor(Math.random() * 5);
+    const replies = ['yoi', 'vroohhh', 'coeg :V', 'awikwok', 'login'];
     message.reply(replies[n]);
   }
 
   if (command === 'buset') {
-    const n = Math.floor(Math.random() * 3);
-    const replies = ['lortt', '#anjayburik', 'njir'];
+    const n = Math.floor(Math.random() * 5);
+    const replies = ['lortt', '#anjayburik', 'njir', 'stress', 'cocote'];
     message.reply(replies[n]);
   }
 
   if (command === 'njir') {
-    const n = Math.floor(Math.random() * 3);
-    const replies = ['gue sih owh aja', 'buset bro', 'hyung'];
+    const n = Math.floor(Math.random() * 5);
+    const replies = ['gue sih owh aja', 'buset bro', 'hyung', 'udah gila', 'makin gila'];
     message.reply(replies[n]);
   }
 
   if (command === 'hai') {
-    const n = Math.floor(Math.random() * 3);
-    const replies = ['yoi', 'hai lort', 'sok asik loe'];
+    const n = Math.floor(Math.random() * 7);
+    const replies = ['yoi', 'hai lort', 'sok asik loe', 'apasih', 'owh', 'hy', 'hyung'];
     message.reply(replies[n]);
   }
 
