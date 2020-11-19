@@ -3,7 +3,7 @@ const GeneratorVideo = require('../generator/GeneratorVideo');
 
 module.exports = {
   name: 'badut',
-  description: 'badut banget nih foto',
+  description: 'tambahin sound effect badut ke image',
   async execute(message, text) {
     let url = null;
 

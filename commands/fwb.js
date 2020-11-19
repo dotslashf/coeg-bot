@@ -4,7 +4,7 @@ const generatorTweet = new GeneratorTweet('fwb');
 
 module.exports = {
   name: 'fwb',
-  description: 'thanks fwbase',
+  description: 'buat template tweet fwbase',
   async execute(message, text) {
     const imagePath = await generatorTweet.generateTemplate(text);
     message.reply({ files: [imagePath] });

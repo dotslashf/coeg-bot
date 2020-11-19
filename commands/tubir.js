@@ -4,7 +4,7 @@ const generatorTweet = new GeneratorTweet('tubir');
 
 module.exports = {
   name: 'tubir',
-  description: 'tubirin aja udah',
+  description: 'buat template tweet tubirfess',
   async execute(message, text) {
     const imagePath = await generatorTweet.generateTemplate(text);
     message.reply({ files: [imagePath] });
