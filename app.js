@@ -66,13 +66,19 @@ client.on('message', async message => {
   
     if (command === 'bjirr') {
     const n = Math.floor(Math.random() * 3);
-    const replies = ['yoi, vroohhh', 'coeg :v'];
+    const replies = ['yoi, 'vroohhh', 'coeg :v'];
     message.reply(replies[n]);
   }
 
   if (command === 'buset') {
     const n = Math.floor(Math.random() * 3);
-    const replies = ['lortt, #anjayburik', 'njir'];
+    const replies = ['lortt', '#anjayburik', 'njir'];
+    message.reply(replies[n]);
+  }
+
+  if (command === 'hai') {
+    const n = Math.floor(Math.random() * 3);
+    const replies = ['yoi', 'hai lort', 'sok asik loe'];
     message.reply(replies[n]);
   }
 
