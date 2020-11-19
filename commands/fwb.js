@@ -1,12 +1,12 @@
-const GeneratorMeme = require('../generator/GeneratorTweet');
+const GeneratorTweet = require('../generator/GeneratorTweet');
 
-const generatorMeme = new GeneratorMeme();
+const generatorTweet = new GeneratorTweet('fwb');
 
 module.exports = {
   name: 'fwb',
   description: 'thanks fwbase',
   async execute(message, text) {
-    const imagePath = await generatorMeme.generateMeme('fwb', text);
+    const imagePath = await generatorTweet.generateTemplate(text);
     message.reply({ files: [imagePath] });
   },
 };
