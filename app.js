@@ -66,7 +66,7 @@ client.on('message', async message => {
   
     if (command === 'bjirr') {
     const n = Math.floor(Math.random() * 3);
-    const replies = ['yoi, 'vroohhh', 'coeg :v'];
+    const replies = ['yoi', 'vroohhh', 'coeg :V'];
     message.reply(replies[n]);
   }
 
