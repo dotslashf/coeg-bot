@@ -1,14 +1,23 @@
 const Discord = require('discord.js');
-const config = require('./config.json');
-const Mock = require('./meme/mock');
-const GeneratorMeme = require('./GenerateMeme');
-const GeneratorVideo = require('./GenerateVideo');
-const { downloadImage } = require('./utility/helper');
+const config = require('./config.js');
+const fs = require('fs');
+const { countCoeg } = require('./utility/helper');
+const { saveDataCoeg, getDataCoeg } = require('./utility/firebase');
 
 const client = new Discord.Client();
-const generatorMeme = new GeneratorMeme();
 
-const prefix = config.prefix;
+client.commands = new Discord.Collection();
+
+const commandFiles = fs
+  .readdirSync('./commands')
+  .filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  client.commands.set(command.name, command);
+}
+
+const prefix = config.PREFIX;
 
 client.on('ready', () => {
   console.log(`471 is serving! 🚀`);
@@ -21,115 +30,34 @@ client.on('message', async message => {
 
   const commandBody = message.content.slice(prefix.length);
   const texts = commandBody.split(' ');
+  if (texts.length <= 1) return;
+
   const command = texts[1].toLowerCase();
+  if (!client.commands.has(command)) return;
 
-  if (!config.command_list.includes(command)) {
-    console.log(`Command ${command} is not recognized!`);
-    return;
+  const text = texts.slice(2).join(' ');
+
+  try {
+    client.commands.get(command).execute(message, text);
+  } catch (error) {
+    console.log(error);
+    message.reply('error!');
   }
+});
 
-  console.log(`Executing command: ${command}`);
+client.on('message', async message => {
+  if (message.author.bot) return;
 
-  if (command === 'mock') {
-    const text = texts.slice(2).join(' ');
-    const mockText = new Mock(text);
-    const imagePath = await generatorMeme.generateMeme(
-      'mocthistweet',
-      mockText.mockText()
-    );
-    message.reply({ files: [imagePath] });
-  }
+  if (message.content.startsWith(prefix)) return;
 
-  if (command === 'tubir') {
-    const text = texts.slice(2).join(' ');
-    const imagePath = await generatorMeme.generateMeme('tubirfess', text);
-    message.reply({ files: [imagePath] });
-  }
+  if (message.content.includes('coeg') || message.content.includes('Coeg')) {
+    const sender_id = message.author.id;
+    const username = message.author.username;
 
-  if (command === 'fwb') {
-    const text = texts.slice(2).join(' ');
-    const imagePath = await generatorMeme.generateMeme('fwbase', text);
-    message.reply({ files: [imagePath] });
-  }
+    const counter = await getDataCoeg(sender_id);
+    const coegCountResult = countCoeg(message.content.split(' '));
 
-  if (command === 'diss') {
-    const text = texts.slice(2).join(' ');
-    const imagePath = await generatorMeme.generateMeme('diss', text);
-    message.reply({ files: [imagePath] });
-  }
-
-  if (command === 'cringe') {
-    const n = Math.floor(Math.random() * 12);
-    const imagePath = ['cringe1.png', 'cringe2.png', 'cringe3.png', 'cringe4.png', 'cringe5.png', 'cringe6.jpg', 'cringe7.jpg', 'cringe8.jpg', 'cringe9.jpg', 'cringe10.jpg', 'cringe11.jpg', 'cringe12.jpg'];
-    message.reply({files: [imagePath[n]]});
-  }
-
-  if (command === 'elit') {
-    const n = Math.floor(Math.random() * 10);
-    const imagePath = ['elit1.jpg', 'elit2.jpg', 'elit3.jpg', 'elit4.jpg', 'elit5.jpg', 'elit6.jpg', 'elit7.jpg', 'elit8.jpg', 'elit9.jpg', 'elit10.jpg'];
-    message.reply({files: [imagePath[n]]});
-  }
-
-  if (command === 'coeg') {
-    const n = Math.floor(Math.random() * 5);
-    const replies = ['bjirrr', 'lorttt', 'jahhh', 'hadah', 'yoi bro'];
-    message.reply(replies[n]);
-  }
-  
-    if (command === 'bjirr') {
-    const n = Math.floor(Math.random() * 5);
-    const replies = ['yoi', 'vroohhh', 'coeg :V', 'awikwok', 'login'];
-    message.reply(replies[n]);
-  }
-
-  if (command === 'buset') {
-    const n = Math.floor(Math.random() * 5);
-    const replies = ['lortt', '#anjayburik', 'njir', 'stress', 'cocote'];
-    message.reply(replies[n]);
-  }
-
-  if (command === 'njir') {
-    const n = Math.floor(Math.random() * 5);
-    const replies = ['gue sih owh aja', 'buset bro', 'hyung', 'udah gila', 'makin gila'];
-    message.reply(replies[n]);
-  }
-
-  if (command === 'hai') {
-    const n = Math.floor(Math.random() * 7);
-    const replies = ['yoi', 'hai lort', 'sok asik loe', 'apasih', 'owh', 'hy', 'hyung'];
-    message.reply(replies[n]);
-  }
-
-  if (command === 'ketawa') {
-    let url = null;
-
-    if (message.attachments.size > 0) {
-      message.attachments.map(attachment => {
-        url = attachment.url;
-      });
-    } else {
-      url = texts[texts.length - 1];
-    }
-
-    await downloadImage(url);
-    const generatorImage = new GeneratorVideo('ketawa', './img/imgAudio.png');
-    generatorImage.generateVideo(message);
-  }
-
-  if (command === 'badut') {
-    let url = null;
-
-    if (message.attachments.size > 0) {
-      message.attachments.map(attachment => {
-        url = attachment.url;
-      });
-    } else {
-      url = texts[texts.length - 1];
-    }
-
-    await downloadImage(url);
-    const generatorImage = new GeneratorVideo('badut', './img/imgAudio.png');
-    generatorImage.generateVideo(message);
+    saveDataCoeg(sender_id, username, counter + coegCountResult);
   }
 
   if (command === 'sedih') {
@@ -165,4 +93,4 @@ client.on('message', async message => {
   }
 });
 
-client.login(config.BOT_TOKEN);
+client.login(config.BOT_TOKEN.dev);
