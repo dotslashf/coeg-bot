@@ -10,9 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@jimp/plugin-circle": "^0.16.1",
     "discord.js": "^12.4.1",
-    "firebase": "^8.0.2",
     "ffmpeg": "0.0.4",
+    "firebase": "^8.0.2",
     "jimp": "^0.16.1",
     "node-fetch": "^2.6.1",
     "videoshow": "^0.1.12"

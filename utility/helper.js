@@ -1,5 +1,6 @@
 const fs = require('fs');
 const nodeFetch = require('node-fetch');
+const Jimp = require('jimp');
 
 const sleep = ms => {
   return new Promise(resolve => {
@@ -7,13 +8,13 @@ const sleep = ms => {
   });
 };
 
-const downloadImage = async url => {
+const downloadImage = async (url, filepath) => {
   // @ts-ignore
   const response = await nodeFetch(url);
   const buffer = await response.buffer();
-  fs.writeFile(`./img/imgAudio.png`, buffer, () =>
-    console.log('Downloading image! 🖼️')
-  );
+  fs.writeFile(filepath, buffer, () => {
+    console.log('Success downloading image! 🖼️');
+  });
 };
 
 const countCoeg = texts => {
@@ -27,4 +28,11 @@ const countCoeg = texts => {
   return result <= n ? result : n;
 };
 
-module.exports = { sleep, downloadImage, countCoeg };
+const filterBlackWhite = filename => {
+  Jimp.read(filename, function (err, image) {
+    if (err) throw err;
+    image.greyscale().write('./img-output/imgAudio.png');
+  });
+};
+
+module.exports = { sleep, downloadImage, countCoeg, filterBlackWhite };

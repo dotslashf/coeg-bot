@@ -1,4 +1,4 @@
-const { downloadImage } = require('../utility/helper');
+const { downloadImage, filterBlackWhite } = require('../utility/helper');
 const GeneratorVideo = require('../generator/GeneratorVideo');
 
 module.exports = {
@@ -15,8 +15,13 @@ module.exports = {
       url = text;
     }
 
-    await downloadImage(url);
-    const generatorImage = new GeneratorVideo('sedih', './img/imgAudio.png');
+    await downloadImage(url, './img/imgAudio.png');
+    filterBlackWhite('./img/imgAudio.png');
+
+    const generatorImage = new GeneratorVideo(
+      'sedih',
+      './img-output/imgAudio.png'
+    );
     await generatorImage.generateVideo(message);
   },
 };
