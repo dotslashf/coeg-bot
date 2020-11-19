@@ -61,7 +61,7 @@ client.on('message', async message => {
   if (command === 'cringe') {
     const n = Math.floor(Math.random() * 10);
     const imagePath = ['cringe1.png', 'cringe2.png', 'cringe3.png', 'cringe4.png', 'cringe5.png', 'cringe6.jpg', 'cringe7.jpg', 'cringe8.jpg', 'cringe9.jpg', 'cringe10.jpg'];
-    message.reply({ files: imagePath[n]})
+    message.reply({ files: [imagePath][n]})
   }
 
   if (command === 'coeg') {
