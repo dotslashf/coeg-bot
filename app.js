@@ -82,6 +82,12 @@ client.on('message', async message => {
     message.reply(replies[n]);
   }
 
+  if (command === 'njir') {
+    const n = Math.floor(Math.random() * 3);
+    const replies = ['gue sih owh aja', 'buset bro', 'hyung'];
+    message.reply(replies[n]);
+  }
+
   if (command === 'hai') {
     const n = Math.floor(Math.random() * 3);
     const replies = ['yoi', 'hai lort', 'sok asik loe'];
