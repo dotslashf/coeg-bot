@@ -1,11 +1,11 @@
 const Jimp = require('jimp');
-const { sleep } = require('./utility/helper');
-const config = require('./config.json');
+const { sleep } = require('../utility/helper');
+const config = require('../config.js');
 
 class GeneratorRank {
   async generateRank(username, counter, rank) {
-    let image = config.image_file.rank.original;
-    let outputImage = config.image_file.rank.output;
+    let image = config.IMAGE_FILE.rank.original;
+    let outputImage = config.IMAGE_FILE.rank.output;
 
     await Jimp.read(image)
       .then(async image => {
