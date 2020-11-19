@@ -59,6 +59,38 @@ client.on('message', async message => {
 
     saveDataCoeg(sender_id, username, counter + coegCountResult);
   }
+
+  if (command === 'sedih') {
+    let url = null;
+
+    if (message.attachments.size > 0) {
+      message.attachments.map(attachment => {
+        url = attachment.url;
+      });
+    } else {
+      url = texts[texts.length - 1];
+    }
+
+    await downloadImage(url);
+    const generatorImage = new GeneratorVideo('sedih', './img/imgAudio.png');
+    generatorImage.generateVideo(message);
+  }
+
+  if (command === 'sad') {
+    let url = null;
+
+    if (message.attachments.size > 0) {
+      message.attachments.map(attachment => {
+        url = attachment.url;
+      });
+    } else {
+      url = texts[texts.length - 1];
+    }
+
+    await downloadImage(url);
+    const generatorImage = new GeneratorVideo('sad', './img/imgAudio.png');
+    generatorImage.generateVideo(message);
+  }
 });
 
 client.login(config.BOT_TOKEN.dev);
