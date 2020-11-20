@@ -1,12 +1,12 @@
-const GeneratorMeme = require('../generator/GeneratorTweet');
+const GeneratorTweet = require('../generator/GeneratorTweet');
 
-const generatorMeme = new GeneratorMeme();
+const generatorTweet = new GeneratorTweet('tubir');
 
 module.exports = {
   name: 'tubir',
-  description: 'tubirin aja udah',
+  description: 'buat template tweet tubirfess',
   async execute(message, text) {
-    const imagePath = await generatorMeme.generateMeme('tubir', text);
+    const imagePath = await generatorTweet.generateTemplate(text);
     message.reply({ files: [imagePath] });
   },
 };

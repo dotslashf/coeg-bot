@@ -1,9 +1,10 @@
 const { downloadImage } = require('../utility/helper');
 const GeneratorVideo = require('../generator/GeneratorVideo');
+const { filterBlackWhite } = require('../utility/helper');
 
 module.exports = {
-  name: 'ketawa',
-  description: 'tambah sound effect ketawa',
+  name: 'sad',
+  description: 'tambah lagu sad ke image',
   async execute(message, text) {
     let url = null;
 
@@ -15,8 +16,13 @@ module.exports = {
       url = text;
     }
 
-    await downloadImage(url);
-    const generatorImage = new GeneratorVideo('ketawa', './img/imgAudio.png');
+    await downloadImage(url, './img/imgAudio.png');
+    filterBlackWhite('./img/imgAudio.png');
+
+    const generatorImage = new GeneratorVideo(
+      'sad',
+      './img-output/imgAudio.png'
+    );
     await generatorImage.generateVideo(message);
   },
 };

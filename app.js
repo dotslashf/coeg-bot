@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const config = require('./config.js');
 const fs = require('fs');
-const { countCoeg } = require('./utility/helper');
+const { countCoeg, random } = require('./utility/helper');
 const { saveDataCoeg, getDataCoeg } = require('./utility/firebase');
 
 const client = new Discord.Client();
@@ -51,6 +51,14 @@ client.on('message', async message => {
   if (message.content.startsWith(prefix)) return;
 
   if (message.content.includes('coeg') || message.content.includes('Coeg')) {
+    const emojiList = [
+      '779254975561072650',
+      '779255532136431636',
+      '779279105358430258',
+    ];
+    const n = random(emojiList);
+
+    message.react(emojiList[n]);
     const sender_id = message.author.id;
     const username = message.author.username;
 
@@ -58,38 +66,6 @@ client.on('message', async message => {
     const coegCountResult = countCoeg(message.content.split(' '));
 
     saveDataCoeg(sender_id, username, counter + coegCountResult);
-  }
-
-  if (command === 'sedih') {
-    let url = null;
-
-    if (message.attachments.size > 0) {
-      message.attachments.map(attachment => {
-        url = attachment.url;
-      });
-    } else {
-      url = texts[texts.length - 1];
-    }
-
-    await downloadImage(url);
-    const generatorImage = new GeneratorVideo('sedih', './img/imgAudio.png');
-    generatorImage.generateVideo(message);
-  }
-
-  if (command === 'sad') {
-    let url = null;
-
-    if (message.attachments.size > 0) {
-      message.attachments.map(attachment => {
-        url = attachment.url;
-      });
-    } else {
-      url = texts[texts.length - 1];
-    }
-
-    await downloadImage(url);
-    const generatorImage = new GeneratorVideo('sad', './img/imgAudio.png');
-    generatorImage.generateVideo(message);
   }
 });
 

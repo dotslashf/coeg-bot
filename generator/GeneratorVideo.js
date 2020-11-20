@@ -13,7 +13,7 @@ class VideoGenerator {
       .audio(this.audio)
       .save('./video/output.mp4')
       .on('start', command => {
-        console.log('Generating video');
+        console.log('Command: ', command);
       })
       .on('error', (err, stdout, stderr) => {
         console.error('Error:', err);
