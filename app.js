@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const config = require('./config.js');
 const fs = require('fs');
-const { countCoeg } = require('./utility/helper');
+const { countCoeg, random } = require('./utility/helper');
 const { saveDataCoeg, getDataCoeg } = require('./utility/firebase');
 
 const client = new Discord.Client();
@@ -51,6 +51,14 @@ client.on('message', async message => {
   if (message.content.startsWith(prefix)) return;
 
   if (message.content.includes('coeg') || message.content.includes('Coeg')) {
+    const emojiList = [
+      '779254975561072650',
+      '779255532136431636',
+      '779279105358430258',
+    ];
+    const n = random(emojiList);
+
+    message.react(emojiList[n]);
     const sender_id = message.author.id;
     const username = message.author.username;
 
