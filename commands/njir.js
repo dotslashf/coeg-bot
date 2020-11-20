@@ -1,3 +1,5 @@
+const { random } = require('../utility/helper');
+
 module.exports = {
   name: 'njir',
   description: 'njir',
@@ -9,7 +11,7 @@ module.exports = {
       'udah gila',
       'makin gila',
     ];
-    const n = Math.floor(Math.random() * replies.length);
+    const n = random(replies);
 
     message.reply(replies[n]);
   },

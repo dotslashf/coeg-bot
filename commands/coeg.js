@@ -1,9 +1,11 @@
+const { random } = require('../utility/helper');
+
 module.exports = {
   name: 'coeg',
   description: 'coeg',
   execute(message, text) {
     const replies = ['bjirrr', 'lorttt', 'jahhh', 'hadah', 'yoi bro'];
-    const n = Math.floor(Math.random() * replies.length);
+    const n = random(replies)
 
     message.reply(replies[n]);
   },
