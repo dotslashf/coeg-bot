@@ -39,4 +39,18 @@ const random = array => {
   return Math.floor(Math.random() * array.length);
 };
 
-module.exports = { sleep, downloadImage, countCoeg, filterBlackWhite, random };
+const maskImage = async imagePath => {
+  const image = await Jimp.read(imagePath);
+
+  image.circle();
+  image.write('./img-output/avatar.png');
+};
+
+module.exports = {
+  sleep,
+  downloadImage,
+  countCoeg,
+  filterBlackWhite,
+  random,
+  maskImage,
+};

@@ -62,7 +62,13 @@ client.on('message', async message => {
     const sender_id = message.author.id;
     const username = message.author.username;
 
-    const counter = await getDataCoeg(sender_id);
+    var counter = null;
+
+    try {
+      counter = await getDataCoeg(sender_id);
+    } catch (error) {
+      counter = 0;
+    }
     const coegCountResult = countCoeg(message.content.split(' '));
 
     saveDataCoeg(sender_id, username, counter + coegCountResult);

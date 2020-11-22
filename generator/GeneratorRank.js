@@ -75,6 +75,20 @@ class GeneratorRank {
     await sleep(50);
     return outputImage;
   }
+
+  async placeAvatar(templateRank, avatar) {
+    console.log('Generating rank');
+    const template = await Jimp.read(templateRank);
+    const ava = await Jimp.read(avatar);
+
+    template.composite(ava, 400, 130, {
+      mode: Jimp.BLEND_SOURCE_OVER,
+      opacityDest: 1,
+      opacitySource: 1,
+    });
+
+    await template.writeAsync('./img-output/template-rank.png');
+  }
 }
 
 module.exports = GeneratorRank;
