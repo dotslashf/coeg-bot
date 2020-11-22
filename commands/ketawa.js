@@ -15,7 +15,7 @@ module.exports = {
       url = text;
     }
 
-    await downloadImage(url);
+    await downloadImage(url, './img/imgAudio.png');
     const generatorImage = new GeneratorVideo('ketawa', './img/imgAudio.png');
     await generatorImage.generateVideo(message);
   },

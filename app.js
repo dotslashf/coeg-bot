@@ -20,7 +20,7 @@ for (const file of commandFiles) {
 const prefix = config.PREFIX;
 
 client.on('ready', () => {
-  console.log(`471 is serving! 🚀`);
+  console.log(`471 is serving in mode: ${config.MODE}! 🚀`);
 });
 
 client.on('message', async message => {
@@ -75,4 +75,4 @@ client.on('message', async message => {
   }
 });
 
-client.login(config.BOT_TOKEN.dev);
+client.login(config.BOT_TOKEN[config.MODE]);
