@@ -8,7 +8,7 @@ module.exports = {
   name: 'rank',
   description: 'rank your coeg',
   async execute(message, text) {
-    const sender_id = message.author.id;
+    const author = message.guild.member(message.author);
     const sender_img = message.author.avatarURL({ format: 'png' });
 
     await downloadImage(sender_img, './img/avatar.png');
@@ -16,14 +16,16 @@ module.exports = {
 
     var coegCount = null;
     try {
-      coegCount = await getDataCoeg(sender_id);
+      coegCount = await getDataCoeg(author.user.id);
     } catch (error) {
       coegCount = 0;
     }
-    const rank = await rankCoeg(sender_id);
+    const rank = await rankCoeg(author.user.id);
+
+    const nickname = author.nickname ? author.nickname : author.user.username;
 
     const imageRankPath = await generatorRank.generateRank(
-      `@${message.author.username}`,
+      `${nickname}`,
       `${coegCount.toString()}`,
       `${rank.toString()}`
     );
