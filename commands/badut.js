@@ -4,6 +4,7 @@ const GeneratorVideo = require('../generator/GeneratorVideo');
 module.exports = {
   name: 'badut',
   description: 'tambahin sound effect badut ke image',
+  emoji: '🤡',
   async execute(message, text) {
     let url = null;
 

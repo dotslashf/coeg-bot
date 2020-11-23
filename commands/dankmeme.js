@@ -4,6 +4,7 @@ const got = require('got');
 module.exports = {
   name: 'dankmeme',
   description: 'random meme dari r/dankmemes',
+  emoji: '🏀',
   execute(message, text) {
     const embed = new Discord.MessageEmbed();
     // @ts-ignore

@@ -4,6 +4,7 @@ const GeneratorVideo = require('../generator/GeneratorVideo');
 module.exports = {
   name: 'sedih',
   description: 'tambah lagu sedih ke image',
+  emoji: '😢',
   async execute(message, text) {
     let url = null;
 

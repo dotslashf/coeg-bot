@@ -6,6 +6,7 @@ const generatorTweet = new GeneratorTweet('mock');
 module.exports = {
   name: 'mock',
   description: 'buat template tweet mockthistweet',
+  emoji: '🤔',
   async execute(message, text) {
     const mockText = new Mock(text);
     const imagePath = await generatorTweet.generateTemplate(

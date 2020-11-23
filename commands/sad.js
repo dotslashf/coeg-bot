@@ -5,6 +5,7 @@ const { filterBlackWhite } = require('../utility/helper');
 module.exports = {
   name: 'sad',
   description: 'tambah lagu sad ke image',
+  emoji: '😔',
   async execute(message, text) {
     let url = null;
 

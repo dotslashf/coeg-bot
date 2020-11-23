@@ -7,6 +7,7 @@ const generatorRank = new GeneratorRank();
 module.exports = {
   name: 'rank',
   description: 'rank your coeg',
+  emoji: '#️⃣',
   async execute(message, text) {
     const author = message.guild.member(message.author);
     const sender_img = message.author.avatarURL({ format: 'png' });

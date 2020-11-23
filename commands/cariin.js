@@ -3,6 +3,7 @@ var request = require('request');
 module.exports = {
   name: 'cariin',
   description: 'bantu cari kata dari kbbi',
+  emoji: '🔍',
   execute(message, text) {
     var options = {
       method: 'POST',

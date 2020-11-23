@@ -1,17 +1,27 @@
+const Discord = require('discord.js');
+const { capitalize } = require('../utility/helper');
+
 module.exports = {
   name: 'tolong',
   description: 'nih command yang lu summon',
+  emoji: 'ℹ️',
   execute(message, text) {
     const { commands } = message.client;
-    let data = [];
+    const embed = new Discord.MessageEmbed();
+    const author = message.guild.member(message.author);
+    const nickname = author.nickname ? author.nickname : author.user.username;
 
-    data.push('Yahahay coeg minta tolong :V\n');
-    data.push(
-      commands
-        .map(command => `${command.name}: ${command.description} `)
-        .join('\n')
-    );
+    embed.setTitle(`Yahahay, ${nickname} minta tolong :V`);
+    embed.setColor('RANDOM');
+    embed.setDescription('Tolong command');
+    commands.map(command => {
+      embed.addField(
+        `${command.emoji} ${capitalize(command.name)}`,
+        command.description,
+        false
+      );
+    });
 
-    message.reply(data);
+    message.channel.send(embed);
   },
 };
