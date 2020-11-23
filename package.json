@@ -16,6 +16,7 @@
     "firebase": "^8.0.2",
     "jimp": "^0.16.1",
     "node-fetch": "^2.6.1",
+    "request": "^2.88.2",
     "videoshow": "^0.1.12"
   },
   "devDependencies": {
