@@ -107,7 +107,7 @@ const config = {
     appId: '',
     measurementId: '',
   },
-  MODE: 'prod', // prod || dev
+  MODE: 'dev', // prod || dev
 };
 
 module.exports = config;
