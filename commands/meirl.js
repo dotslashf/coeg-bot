@@ -23,7 +23,6 @@ module.exports = {
         embed.setImage(memeImage);
         embed.setFooter(`👍 ${memeUpvotes} 💬 ${memeNumComments}`);
         message.channel.send(embed);
-        console.log('Sending me_irl');
       })
       .catch(console.error);
   },

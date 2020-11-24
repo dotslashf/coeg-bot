@@ -22,7 +22,7 @@ for (const file of commandFiles) {
 const prefix = config.PREFIX;
 
 client.on('ready', () => {
-  console.log(`471 is serving in mode: ${config.MODE}! 🚀`);
+  console.log(`coeg-bot is serving in mode: ${config.MODE}! 🚀`);
 });
 
 client.on('message', async message => {
@@ -41,6 +41,12 @@ client.on('message', async message => {
 
   try {
     client.commands.get(command).execute(message, text);
+    const now = new Date();
+    console.log(
+      `timestamp: ${now.getDate()}-${now.getMonth()} - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | command: ${command} | user: ${
+        message.author.username
+      }`
+    );
   } catch (error) {
     console.log(error);
     message.reply('error!');
