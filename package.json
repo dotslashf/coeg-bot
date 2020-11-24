@@ -14,8 +14,11 @@
     "discord.js": "^12.4.1",
     "ffmpeg": "0.0.4",
     "firebase": "^8.0.2",
+    "genius-lyrics-api": "^3.0.3",
+    "got": "^11.8.0",
     "jimp": "^0.16.1",
     "node-fetch": "^2.6.1",
+    "request": "^2.88.2",
     "videoshow": "^0.1.12"
   },
   "devDependencies": {

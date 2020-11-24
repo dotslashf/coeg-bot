@@ -6,6 +6,7 @@ const { random } = require('../utility/helper');
 module.exports = {
   name: 'elit',
   description: 'random elit meme',
+  emoji: '😎',
   execute(message, text) {
     const n = random(files);
     const selectedImage = files[n];

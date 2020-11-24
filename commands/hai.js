@@ -3,6 +3,7 @@ const { random } = require('../utility/helper');
 module.exports = {
   name: 'hai',
   description: 'hai',
+  emoji: '👋',
   execute(message, text) {
     const replies = [
       'yoi',
