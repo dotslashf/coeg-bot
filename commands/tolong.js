@@ -11,14 +11,18 @@ module.exports = {
     const author = message.guild.member(message.author);
     const nickname = author.nickname ? author.nickname : author.user.username;
 
-    embed.setTitle(`Yahahay, ${nickname} minta tolong :V`);
+    embed.setTitle(`Command list untuk Coeg-BOT`);
     embed.setColor('RANDOM');
     embed.setDescription('Tolong command');
+    embed.setAuthor(nickname, message.author.avatarURL({ format: 'png' }));
+    embed.setTimestamp(Date.now());
     commands.map(command => {
       embed.addField(
         `${command.emoji} ${capitalize(command.name)}`,
-        command.description,
-        false
+        `\n\`:V ${command.name} ${
+          command.extraCommand ? command.extraCommand : ''
+        }\` \n\n **${command.description}**`,
+        true
       );
     });
 
