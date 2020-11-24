@@ -55,18 +55,22 @@ client.on('message', async message => {
   if (message.content.includes('coeg') || message.content.includes('Coeg')) {
     const now = Date.now();
     const timestamps = cooldowns.get('coeg');
-    const cooldownAmount = 5 * 1000;
+    const cooldownAmount = 20 * 1000;
 
     if (timestamps.has(message.author.id)) {
       const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
       if (now < expirationTime) {
         const timeLeft = (expirationTime - now) / 1000;
-        return message.reply(
-          `percuma lu spam, gak bakal ke itung coeg :V, tunggu ${timeLeft.toFixed(
-            1
-          )} baru ngomong coeg lagi dong.`
-        );
+        return message
+          .reply(
+            `percuma lu spam, gak bakal ke itung coeg :V, tunggu ${timeLeft.toFixed(
+              1
+            )} baru ngomong coeg lagi dong.`
+          )
+          .then(msg => {
+            msg.delete({ timeout: 3000 });
+          });
       }
     } else {
       const emojiList = [
