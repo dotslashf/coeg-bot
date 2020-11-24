@@ -1,4 +1,5 @@
 var request = require('request');
+const Discord = require('discord.js');
 
 module.exports = {
   name: 'cariin',
@@ -22,20 +23,25 @@ module.exports = {
       }
 
       if (response.statusCode == 404) {
-        message.reply('coeg lu nulis kata yang bener dong :V');
+        message.reply('kata yang lu cari gak ada di kbbi coeg :V').then(msg => {
+          msg.delete({ timeout: 3000 });
+        });
       } else {
         const definition = JSON.parse(response.body);
+        const url = definition.message.pranala;
         definition.message.entri.map(d => {
-          const reply = JSON.stringify(
-            {
-              nama: d.nama,
-              makna: d.makna[0],
-              kata_dasar: d.kata_dasar,
-            },
-            null,
-            2
-          );
-          message.reply('```json\n' + reply + '\n```');
+          const embed = new Discord.MessageEmbed();
+          embed.setTitle(`${d.nama} [${d.nomor ? d.nomor : 1}]`);
+          embed.setURL(url);
+          embed.setColor('RANDOM');
+          d.makna.map(makna => {
+            embed.addField(
+              'Detail:',
+              '```js' + '\n' + JSON.stringify(makna, null, 2) + '```',
+              false
+            );
+          });
+          message.channel.send(embed);
         });
       }
     });
