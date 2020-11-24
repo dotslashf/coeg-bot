@@ -63,7 +63,7 @@ client.on('message', async message => {
     const timestamps = cooldowns.get('coeg');
     const cooldownAmount = 20 * 1000;
 
-    if (timestamps.has(message.author.id)) {
+    if (timestamps.has(message.guild.id + message.author.id)) {
       const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
       if (now < expirationTime) {
@@ -92,13 +92,18 @@ client.on('message', async message => {
       var counter = null;
 
       try {
-        counter = await getDataCoeg(author.user.id);
+        counter = await getDataCoeg(message.guild.id, author.user.id);
       } catch (error) {
         counter = 0;
       }
       const coegCountResult = countCoeg(message.content.split(' '));
 
-      saveDataCoeg(author.user.id, author.nickname, counter + coegCountResult);
+      saveDataCoeg(
+        message.guild.id,
+        author.user.id,
+        author.nickname ? author.nickname : message.author.username,
+        counter + coegCountResult
+      );
     }
 
     timestamps.set(message.author.id, now);

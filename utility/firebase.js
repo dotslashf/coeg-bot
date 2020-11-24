@@ -3,27 +3,30 @@ const config = require('../config.js');
 
 require('firebase/database');
 
-const saveDataCoeg = (userId, username, counter) => {
+const saveDataCoeg = (guildId, userId, username, counter) => {
   fire
     .database()
-    .ref('coeg_counter/' + userId)
+    .ref(guildId + '/coeg_counter/' + userId)
     .set({
       username: username,
       counter: counter,
     });
 };
 
-const getDataCoeg = async userId => {
+const getDataCoeg = async (guildId, userId) => {
   const snapshot = await fire
     .database()
-    .ref('coeg_counter/' + userId)
+    .ref(guildId + '/coeg_counter/' + userId)
     .once('value');
   var counter = snapshot.val().counter;
   return counter;
 };
 
-const rankCoeg = async sender_id => {
-  const snapshot = await fire.database().ref('coeg_counter/').once('value');
+const rankCoeg = async (guildId, senderId) => {
+  const snapshot = await fire
+    .database()
+    .ref(guildId + '/coeg_counter/')
+    .once('value');
 
   const coegTotal = snapshot.val();
 
@@ -40,11 +43,11 @@ const rankCoeg = async sender_id => {
     .map(x => {
       return x.key;
     })
-    .indexOf(sender_id);
+    .indexOf(senderId);
 
   return pos + 1;
 };
 
 const fire = firebase.default.initializeApp(config.FIREBASE_CONFIG);
 
-module.exports = { fire, saveDataCoeg, getDataCoeg, rankCoeg };
+module.exports = { saveDataCoeg, getDataCoeg, rankCoeg };

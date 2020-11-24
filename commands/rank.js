@@ -17,11 +17,11 @@ module.exports = {
 
     var coegCount = null;
     try {
-      coegCount = await getDataCoeg(author.user.id);
+      coegCount = await getDataCoeg(message.guild.id, author.user.id);
     } catch (error) {
       coegCount = 0;
     }
-    const rank = await rankCoeg(author.user.id);
+    const rank = await rankCoeg(message.guild.id, author.user.id);
 
     const nickname = author.nickname ? author.nickname : author.user.username;
 
