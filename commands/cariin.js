@@ -4,6 +4,7 @@ module.exports = {
   name: 'cariin',
   description: 'bantu cari kata dari kbbi',
   emoji: '🔍',
+  extraCommand: '[kata yang mau dicari]',
   execute(message, text) {
     var options = {
       method: 'POST',

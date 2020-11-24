@@ -6,6 +6,7 @@ module.exports = {
   name: 'sad',
   description: 'tambah lagu sad ke image',
   emoji: '😔',
+  extraCommand: '[attachment atau link image]',
   async execute(message, text) {
     let url = null;
 

@@ -6,6 +6,7 @@ module.exports = {
   name: 'diss',
   description: 'buat template tweet areajulid',
   emoji: '💅',
+  extraCommand: '[text untuk dimasukkan ke dalam template]',
   async execute(message, text) {
     const imagePath = await generatorTweet.generateTemplate(text);
     message.reply({ files: [imagePath] });

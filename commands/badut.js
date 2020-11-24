@@ -5,6 +5,7 @@ module.exports = {
   name: 'badut',
   description: 'tambahin sound effect badut ke image',
   emoji: '🤡',
+  extraCommand: '[attachment atau link image]',
   async execute(message, text) {
     let url = null;
 
