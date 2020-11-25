@@ -9,7 +9,7 @@ module.exports = {
   name: 'tebak',
   description: 'tebak-tebakan kata yuk',
   emoji: '🎮',
-  extraCommand: 'new | char',
+  extraCommand: '[new / char tebakan / kata tebakan]',
   async execute(message, text) {
     const player = players.get('players');
     const author = message.guild.member(message.author);
