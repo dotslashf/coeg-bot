@@ -1,6 +1,6 @@
 const GeneratorRank = require('../generator/GeneratorRank');
-const { getDataCoeg, rankCoeg } = require('../utility/firebase');
-const { downloadImage, maskImage } = require('../utility/helper');
+const { getDataCoeg, rankCoeg } = require('../util/firebase');
+const { downloadImage, maskImage } = require('../util/helper');
 
 const generatorRank = new GeneratorRank();
 

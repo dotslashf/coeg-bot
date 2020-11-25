@@ -1,5 +1,5 @@
 const Jimp = require('jimp');
-const { sleep } = require('../utility/helper');
+const { sleep } = require('../util/helper');
 const config = require('../config.js');
 
 class GeneratorTweet {

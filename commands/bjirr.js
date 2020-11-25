@@ -1,4 +1,4 @@
-const { random } = require('../utility/helper');
+const { random } = require('../util/helper');
 
 module.exports = {
   name: 'bjirr',
