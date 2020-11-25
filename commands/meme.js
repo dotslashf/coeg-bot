@@ -11,7 +11,7 @@ module.exports = {
     const subreddit = text;
 
     if (!config.LIST_SUBREDDIT.includes(subreddit)) {
-      message.reply('subreddit tidak terdaftar');
+      return message.reply('subreddit tidak terdaftar');
     }
 
     const embed = new Discord.MessageEmbed();
