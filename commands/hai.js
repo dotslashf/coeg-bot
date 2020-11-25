@@ -14,7 +14,7 @@ module.exports = {
       'hy',
       'hyung',
     ];
-    const n = random(replies);
+    const n = random(replies.length);
 
     message.reply(replies[n]);
   },

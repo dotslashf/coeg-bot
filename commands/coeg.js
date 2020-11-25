@@ -6,7 +6,7 @@ module.exports = {
   emoji: '✌️',
   execute(message, text) {
     const replies = ['bjirrr', 'lorttt', 'jahhh', 'hadah', 'yoi bro'];
-    const n = random(replies);
+    const n = random(replies.length);
 
     message.reply(replies[n]);
   },

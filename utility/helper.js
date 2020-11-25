@@ -35,8 +35,8 @@ const filterBlackWhite = filename => {
   });
 };
 
-const random = array => {
-  return Math.floor(Math.random() * array.length);
+const random = number => {
+  return Math.floor(Math.random() * number);
 };
 
 const maskImage = async imagePath => {

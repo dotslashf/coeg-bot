@@ -8,7 +8,7 @@ module.exports = {
   description: 'random elit meme',
   emoji: '😎',
   execute(message, text) {
-    const n = random(files);
+    const n = random(files.length);
     const selectedImage = files[n];
 
     message.reply({ files: [baseFile + selectedImage] });

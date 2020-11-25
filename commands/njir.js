@@ -12,7 +12,7 @@ module.exports = {
       'udah gila',
       'makin gila',
     ];
-    const n = random(replies);
+    const n = random(replies.length);
 
     message.reply(replies[n]);
   },
