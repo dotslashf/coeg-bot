@@ -48,6 +48,29 @@ const rankCoeg = async (guildId, senderId) => {
   return pos + 1;
 };
 
+const saveScoreTebak = async (guildId, userId, score) => {
+  fire
+    .database()
+    .ref(guildId + '/score_tebak/' + userId)
+    .set({
+      score,
+    });
+};
+
+const getScoreTebak = async (guildId, userId) => {
+  const snapshot = await fire
+    .database()
+    .ref(guildId + '/score_tebak/' + userId)
+    .once('value');
+  return snapshot.val() ? snapshot.val().score : 0;
+};
+
 const fire = firebase.default.initializeApp(config.FIREBASE_CONFIG);
 
-module.exports = { saveDataCoeg, getDataCoeg, rankCoeg };
+module.exports = {
+  saveDataCoeg,
+  getDataCoeg,
+  rankCoeg,
+  saveScoreTebak,
+  getScoreTebak,
+};
