@@ -64,7 +64,8 @@ client.on('message', async message => {
     const cooldownAmount = 20 * 1000;
 
     if (timestamps.has(message.guild.id + message.author.id)) {
-      const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+      const expirationTime =
+        timestamps.get(message.guild.id + message.author.id) + cooldownAmount;
 
       if (now < expirationTime) {
         const timeLeft = (expirationTime - now) / 1000;
@@ -84,7 +85,8 @@ client.on('message', async message => {
         '779255532136431636',
         '779279105358430258',
       ];
-      const n = random(emojiList);
+
+      const n = random(emojiList.length);
 
       message.react(emojiList[n]);
       const author = message.guild.member(message.author);
@@ -106,7 +108,7 @@ client.on('message', async message => {
       );
     }
 
-    timestamps.set(message.author.id, now);
+    timestamps.set(message.guild.id + message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
   }
 });
