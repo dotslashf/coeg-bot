@@ -43,13 +43,13 @@ client.on('message', async message => {
     client.commands.get(command).execute(message, text);
     const now = new Date();
     console.log(
-      `timestamp: ${now.getDate()}-${now.getMonth()} - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | command: ${command} | user: ${
+      `timestamp: ${now.getDate()}-${now.getMonth()} - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | command: ${command} ${text} | user: ${
         message.author.username
       }`
     );
   } catch (error) {
     console.log(error);
-    message.reply('error!');
+    message.reply('Error!');
   }
 });
 
