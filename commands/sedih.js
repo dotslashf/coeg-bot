@@ -1,4 +1,4 @@
-const { downloadImage, filterBlackWhite } = require('../utility/helper');
+const { downloadImage, filterBlackWhite } = require('../util/helper');
 const GeneratorVideo = require('../generator/GeneratorVideo');
 
 module.exports = {

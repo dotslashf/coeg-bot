@@ -1,4 +1,4 @@
-const { random } = require('../utility/helper');
+const { random } = require('../util/helper');
 
 module.exports = {
   name: 'hai',
@@ -14,7 +14,7 @@ module.exports = {
       'hy',
       'hyung',
     ];
-    const n = random(replies);
+    const n = random(replies.length);
 
     message.reply(replies[n]);
   },

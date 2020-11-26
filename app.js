@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const config = require('./config.js');
 const fs = require('fs');
-const { countCoeg, random } = require('./utility/helper');
-const { saveDataCoeg, getDataCoeg } = require('./utility/firebase');
+const { countCoeg, random } = require('./util/helper');
+const { saveDataCoeg, getDataCoeg } = require('./util/firebase');
 
 const client = new Discord.Client();
 const cooldowns = new Discord.Collection();
@@ -22,7 +22,7 @@ for (const file of commandFiles) {
 const prefix = config.PREFIX;
 
 client.on('ready', () => {
-  console.log(`471 is serving in mode: ${config.MODE}! 🚀`);
+  console.log(`coeg-bot is serving in mode: ${config.MODE}! 🚀`);
 });
 
 client.on('message', async message => {
@@ -41,9 +41,15 @@ client.on('message', async message => {
 
   try {
     client.commands.get(command).execute(message, text);
+    const now = new Date();
+    console.log(
+      `timestamp: ${now.getDate()}-${now.getMonth()} - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | command: ${command} ${text} | user: ${
+        message.author.username
+      }`
+    );
   } catch (error) {
     console.log(error);
-    message.reply('error!');
+    message.reply('Error!');
   }
 });
 
@@ -55,18 +61,23 @@ client.on('message', async message => {
   if (message.content.includes('coeg') || message.content.includes('Coeg')) {
     const now = Date.now();
     const timestamps = cooldowns.get('coeg');
-    const cooldownAmount = 5 * 1000;
+    const cooldownAmount = 20 * 1000;
 
-    if (timestamps.has(message.author.id)) {
-      const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+    if (timestamps.has(message.guild.id + message.author.id)) {
+      const expirationTime =
+        timestamps.get(message.guild.id + message.author.id) + cooldownAmount;
 
       if (now < expirationTime) {
         const timeLeft = (expirationTime - now) / 1000;
-        return message.reply(
-          `percuma lu spam, gak bakal ke itung coeg :V, tunggu ${timeLeft.toFixed(
-            1
-          )} baru ngomong coeg lagi dong.`
-        );
+        return message
+          .reply(
+            `percuma lu spam, gak bakal ke itung coeg :V, tunggu ${timeLeft.toFixed(
+              1
+            )} baru ngomong coeg lagi dong.`
+          )
+          .then(msg => {
+            msg.delete({ timeout: 3000 });
+          });
       }
     } else {
       const emojiList = [
@@ -74,7 +85,8 @@ client.on('message', async message => {
         '779255532136431636',
         '779279105358430258',
       ];
-      const n = random(emojiList);
+
+      const n = random(emojiList.length);
 
       message.react(emojiList[n]);
       const author = message.guild.member(message.author);
@@ -82,16 +94,21 @@ client.on('message', async message => {
       var counter = null;
 
       try {
-        counter = await getDataCoeg(author.user.id);
+        counter = await getDataCoeg(message.guild.id, author.user.id);
       } catch (error) {
         counter = 0;
       }
       const coegCountResult = countCoeg(message.content.split(' '));
 
-      saveDataCoeg(author.user.id, author.nickname, counter + coegCountResult);
+      saveDataCoeg(
+        message.guild.id,
+        author.user.id,
+        author.nickname ? author.nickname : message.author.username,
+        counter + coegCountResult
+      );
     }
 
-    timestamps.set(message.author.id, now);
+    timestamps.set(message.guild.id + message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
   }
 });

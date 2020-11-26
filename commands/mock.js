@@ -1,4 +1,4 @@
-const Mock = require('../utility/mock');
+const Mock = require('../util/mock');
 const GeneratorTweet = require('../generator/GeneratorTweet');
 
 const generatorTweet = new GeneratorTweet('mock');

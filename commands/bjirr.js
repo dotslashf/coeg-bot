@@ -1,4 +1,4 @@
-const { random } = require('../utility/helper');
+const { random } = require('../util/helper');
 
 module.exports = {
   name: 'bjirr',
@@ -6,7 +6,7 @@ module.exports = {
   emoji: '🅱️',
   execute(message, text) {
     const replies = ['yoi', 'vroohhh', 'coeg :V', 'awikwok', 'login'];
-    const n = random(replies);
+    const n = random(replies.length);
 
     message.reply(replies[n]);
   },

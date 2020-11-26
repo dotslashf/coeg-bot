@@ -1,6 +1,6 @@
 const fs = require('fs');
-const nodeFetch = require('node-fetch');
 const Jimp = require('jimp');
+const { default: Axios } = require('axios');
 
 const sleep = ms => {
   return new Promise(resolve => {
@@ -9,11 +9,19 @@ const sleep = ms => {
 };
 
 const downloadImage = async (url, filepath) => {
-  // @ts-ignore
-  const response = await nodeFetch(url);
-  const buffer = await response.buffer();
-  fs.writeFile(filepath, buffer, () => {
-    console.log('Success downloading image! 🖼️');
+  const writer = fs.createWriteStream(filepath);
+
+  const response = await Axios({
+    url,
+    method: 'GET',
+    responseType: 'stream',
+  });
+
+  response.data.pipe(writer);
+
+  return new Promise((resolve, reject) => {
+    writer.on('finish', resolve);
+    writer.on('error', reject);
   });
 };
 
@@ -35,8 +43,8 @@ const filterBlackWhite = filename => {
   });
 };
 
-const random = array => {
-  return Math.floor(Math.random() * array.length);
+const random = number => {
+  return Math.floor(Math.random() * number);
 };
 
 const maskImage = async imagePath => {
