@@ -39,6 +39,7 @@ const rankCoeg = async (guildId, senderId) => {
   let resultsSorted = results.sort((a, b) => {
     return b.value - a.value;
   });
+
   var pos = resultsSorted
     .map(x => {
       return x.key;
@@ -48,11 +49,12 @@ const rankCoeg = async (guildId, senderId) => {
   return pos + 1;
 };
 
-const saveScoreTebak = async (guildId, userId, score) => {
+const saveScoreTebak = async (guildId, userId, username, score) => {
   fire
     .database()
     .ref(guildId + '/score_tebak/' + userId)
     .set({
+      username,
       score,
     });
 };
@@ -65,6 +67,42 @@ const getScoreTebak = async (guildId, userId) => {
   return snapshot.val() ? snapshot.val().score : 0;
 };
 
+const rankScoreTebak = async (guildId, userId) => {
+  const snapshot = await fire
+    .database()
+    .ref(guildId + '/score_tebak/')
+    .once('value');
+
+  const scoreTotal = snapshot.val();
+
+  let results = [];
+  Promise.all(
+    Object.keys(scoreTotal).map(key => {
+      results.push({
+        key: key,
+        value: {
+          score: scoreTotal[key].score,
+          username: scoreTotal[key].username,
+        },
+      });
+    })
+  );
+
+  let resultsSorted = results.sort((a, b) => {
+    return b.value.score - a.value.score;
+  });
+
+  var pos = resultsSorted
+    .map(x => {
+      return x.key;
+    })
+    .indexOf(userId);
+
+  pos += 1;
+
+  return { pos, resultsSorted };
+};
+
 const fire = firebase.default.initializeApp(config.FIREBASE_CONFIG);
 
 module.exports = {
@@ -73,4 +111,5 @@ module.exports = {
   rankCoeg,
   saveScoreTebak,
   getScoreTebak,
+  rankScoreTebak,
 };

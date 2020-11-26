@@ -72,6 +72,7 @@ module.exports = {
         saveScoreTebak(
           message.guild.id,
           author.user.id,
+          nickname,
           scoreTotal + word.score
         );
 
@@ -122,6 +123,7 @@ module.exports = {
         saveScoreTebak(
           message.guild.id,
           author.user.id,
+          nickname,
           scoreTotal + word.score
         );
 
@@ -150,7 +152,12 @@ module.exports = {
       message.reply('total score lu bakal dikurang 25 :V');
 
       let scoreTotal = await getScoreTebak(message.guild.id, author.user.id);
-      saveScoreTebak(message.guild.id, author.user.id, scoreTotal - 25);
+      saveScoreTebak(
+        message.guild.id,
+        author.user.id,
+        nickname,
+        scoreTotal - 25
+      );
 
       console.log(word.word);
 
