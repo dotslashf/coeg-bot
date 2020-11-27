@@ -96,7 +96,7 @@ module.exports = {
         );
       }
 
-      message.edit(embedAnswer);
+      message.reply(embedAnswer);
     }
 
     // Answering with 1 word
@@ -143,7 +143,7 @@ module.exports = {
           );
       }
 
-      message.edit(embedAnswer);
+      message.reply(embedAnswer);
     }
 
     // New game / abandon previous game
