@@ -9,11 +9,11 @@ class GeneratorRank {
 
     await Jimp.read(image)
       .then(async image => {
-        await Jimp.loadFont('./font/comic.fnt').then(font => {
+        await Jimp.loadFont('./font/Raleway-Medium.fnt').then(font => {
           image.print(
             font,
             0,
-            460,
+            185,
             {
               text: username,
               alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
@@ -32,11 +32,11 @@ class GeneratorRank {
     // rank
     await Jimp.read(outputImage)
       .then(async image => {
-        await Jimp.loadFont('./font/comic-bold.fnt').then(font => {
+        await Jimp.loadFont('./font/AvertaDemoPE-Regular.fnt').then(font => {
           image.print(
             font,
-            500,
-            595,
+            295,
+            353,
             {
               text: rank,
             },
@@ -54,11 +54,11 @@ class GeneratorRank {
     // count
     await Jimp.read(outputImage)
       .then(async image => {
-        await Jimp.loadFont('./font/comic-bold.fnt').then(font => {
+        await Jimp.loadFont('./font/AvertaDemoPE-Regular.fnt').then(font => {
           image.print(
             font,
-            590,
-            745,
+            245,
+            303.5,
             {
               text: counter,
             },
@@ -80,10 +80,11 @@ class GeneratorRank {
     const template = await Jimp.read(templateRank);
     const ava = await Jimp.read(avatar);
 
-    template.composite(ava, 400, 130, {
+    template.composite(ava, 193, 50, {
       mode: Jimp.BLEND_SOURCE_OVER,
       opacityDest: 1,
       opacitySource: 1,
+      
     });
 
     await template.writeAsync('./img-output/template-rank.png');
