@@ -84,10 +84,9 @@ class GeneratorRank {
       mode: Jimp.BLEND_SOURCE_OVER,
       opacityDest: 1,
       opacitySource: 1,
-      
     });
 
-    await template.writeAsync('./img-output/template-rank-2.png');
+    await template.writeAsync('./img-output/template-rank.png');
   }
 }
 
