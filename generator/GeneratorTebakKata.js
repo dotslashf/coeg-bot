@@ -92,7 +92,7 @@ module.exports = class GeneratorTebakKata {
     });
 
     // correct answer
-    if (this.word == word) {
+    if (this.word == word.toLowerCase()) {
       this.hiddenWord.map((_, index) => {
         this.hiddenWord[index] = tempWord[index];
       });
