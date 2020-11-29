@@ -40,13 +40,13 @@ client.on('message', async message => {
   const text = texts.slice(2).join(' ');
 
   try {
-    client.commands.get(command).execute(message, text);
     const now = new Date();
     console.log(
       `timestamp: ${now.getDate()}-${now.getMonth()} - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | command: ${command} ${text} | user: ${
         message.author.username
       }`
     );
+    client.commands.get(command).execute(message, text);
   } catch (error) {
     console.log(error);
     message.reply('Error!');
