@@ -58,6 +58,20 @@ const capitalize = string => {
   return string[0].toUpperCase() + string.slice(1);
 };
 
+const getUserIdFromMention = mention => {
+  if (!mention) return;
+
+  if (mention.startsWith('<@') && mention.endsWith('>')) {
+    mention = mention.slice(2, -1);
+
+    if (mention.startsWith('!')) {
+      mention = mention.slice(1);
+    }
+
+    return mention;
+  }
+};
+
 module.exports = {
   sleep,
   downloadImage,
@@ -66,4 +80,5 @@ module.exports = {
   random,
   maskImage,
   capitalize,
+  getUserIdFromMention,
 };

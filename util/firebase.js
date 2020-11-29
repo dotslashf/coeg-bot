@@ -92,13 +92,15 @@ const rankScoreTebak = async (guildId, userId) => {
     return b.value.score - a.value.score;
   });
 
-  var pos = resultsSorted
+  let pos = resultsSorted
     .map(x => {
       return x.key;
     })
     .indexOf(userId);
 
-  const score = resultsSorted[pos].value.score;
+  pos ? pos : null;
+
+  const score = resultsSorted[pos] ? resultsSorted[pos].value.score : 0;
   pos += 1;
 
   return { pos, resultsSorted, score };
