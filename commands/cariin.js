@@ -23,26 +23,33 @@ module.exports = {
       }
 
       if (response.statusCode == 404) {
-        message.reply('kata yang lu cari gak ada di kbbi coeg :V').then(msg => {
-          msg.delete({ timeout: 3000 });
-        });
+        return message
+          .reply('kata yang lu cari gak ada di kbbi coeg :V')
+          .then(msg => {
+            msg.delete({ timeout: 3000 });
+          });
       } else {
         const definition = JSON.parse(response.body);
         const url = definition.message.pranala;
-        definition.message.entri.map(d => {
-          const embed = new Discord.MessageEmbed();
-          embed.setTitle(`${d.nama} [${d.nomor ? d.nomor : 1}]`);
-          embed.setURL(url);
-          embed.setColor('RANDOM');
-          d.makna.map(makna => {
-            embed.addField(
-              'Detail:',
-              '```js' + '\n' + JSON.stringify(makna, null, 2) + '```',
-              false
-            );
+        try {
+          definition.message.entri.map(d => {
+            const embed = new Discord.MessageEmbed();
+            embed.setTitle(`${d.nama} [${d.nomor ? d.nomor : 1}]`);
+            embed.setURL(url);
+            embed.setColor('RANDOM');
+            d.makna.map(makna => {
+              embed.addField(
+                'Detail:',
+                '```js' + '\n' + JSON.stringify(makna, null, 2) + '```',
+                false
+              );
+            });
+            message.channel.send(embed);
           });
-          message.channel.send(embed);
-        });
+        } catch (error) {
+          console.log(error);
+          message.channel.send('Beep boop, check error log');
+        }
       }
     });
   },
