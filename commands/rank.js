@@ -43,7 +43,7 @@ module.exports = {
 
     // rank tebak
     else if (text == 'tebak') {
-      const { pos, resultsSorted } = await rankScoreTebak(
+      const { pos, resultsSorted, score } = await rankScoreTebak(
         message.guild.id,
         author.user.id
       );
@@ -51,12 +51,12 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         .setTitle(`🎬 SCOREBOARD TEBAK KATA ${message.guild.name} 🎬`)
         .setColor('GREEN')
-        .setDescription(`✨ **Kamu juara ${pos}** ✨`);
+        .setDescription(`✨ **Kamu posisi ${pos} dengan score ${score}** ✨`);
 
       const limit = resultsSorted.length > 5 ? 5 : resultsSorted.length;
 
       let listJuaraUmum = [];
-      for (let i = 0; i <= limit; i++) {
+      for (let i = 0; i <= limit - 1; i++) {
         const element = resultsSorted[i];
 
         if (element) {

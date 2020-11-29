@@ -98,9 +98,10 @@ const rankScoreTebak = async (guildId, userId) => {
     })
     .indexOf(userId);
 
+  const score = resultsSorted[pos].value.score;
   pos += 1;
 
-  return { pos, resultsSorted };
+  return { pos, resultsSorted, score };
 };
 
 const fire = firebase.default.initializeApp(config.FIREBASE_CONFIG);
