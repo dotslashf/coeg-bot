@@ -8,11 +8,11 @@ module.exports = class GeneratorTebakKata {
     this.hiddenChar = [];
     this.generateHiddenWord();
     this.getHiddenChar();
+    this.nChar = this.generateNChar();
     this.score = 100;
-    this.scoreModifier = Math.floor(
-      100 / (this.word.length - this.generateNChar())
-    );
+    this.scoreModifier = Math.floor(100 / (this.word.length - this.nChar));
     this.hiddenCharOnly = [];
+    this.isDone = false;
   }
 
   generateNChar() {
@@ -37,7 +37,7 @@ module.exports = class GeneratorTebakKata {
 
     for (let i = 0; i < hiddenWord.length; i++) {
       if (i != 0 && i != hiddenWord.length - 1) {
-        hiddenWord[i] = '*';
+        hiddenWord[i] = '_';
       }
     }
 
@@ -55,16 +55,13 @@ module.exports = class GeneratorTebakKata {
   getHiddenChar() {
     let chars = [];
     this.hiddenWord.forEach((element, index) => {
-      if (element == '*') {
+      if (element == '_') {
         chars.push({ i: index, char: this.word[index] });
       }
     });
     this.hiddenChar = chars;
   }
 
-  /**
-   * @param {string} char
-   */
   answer(char) {
     this.hiddenChar.forEach(element => {
       if (element.char == char.toLowerCase()) {
@@ -72,35 +69,68 @@ module.exports = class GeneratorTebakKata {
       }
     });
 
-    const hiddenChar = this.hiddenChar.map(char => {
+    this.hiddenCharOnly = this.hiddenChar.map(char => {
       return char.char;
     });
 
-    this.hiddenCharOnly = hiddenChar;
+    // reveal char if wrong
+    if (!this.hiddenCharOnly.includes(char)) {
+      this.minusScore(this.scoreModifier);
+      this.revealHiddenChar();
+    }
 
-    if (!hiddenChar.includes(char)) {
-      this.minusScore();
+    if (this.word == this.hiddenWord.join('')) {
+      this.isDone = true;
     }
   }
 
-  /**
-   * @param {string} word
-   */
   answerWord(word) {
     const tempWord = this.word.split('');
+
+    this.hiddenCharOnly = this.hiddenChar.map(char => {
+      return char.char;
+    });
+
+    // correct answer
     if (this.word == word) {
-      this.hiddenWord.map((char, index) => {
+      this.hiddenWord.map((_, index) => {
         this.hiddenWord[index] = tempWord[index];
       });
-      console.log(this.hiddenWord.join(''));
-      return true;
-    } else {
-      this.minusScore();
-      return false;
+      this.isDone = true;
+    }
+    // wrong answer
+    else {
+      this.isDone = false;
+      this.minusScore(this.scoreModifier);
+      this.revealHiddenChar();
     }
   }
 
-  minusScore() {
-    this.score = this.score - this.scoreModifier;
+  revealHiddenChar() {
+    // only reveal char if only if hiddenchar > 1
+    console.log(this.hiddenCharOnly.length, this.hiddenChar.length);
+    if (this.hiddenCharOnly.length > 1) {
+      const n = this.hiddenWord.indexOf('_');
+      this.hiddenChar.map(element => {
+        if (element.i == n) {
+          this.hiddenWord[n] = element.char;
+          this.hiddenChar.splice(0, 1);
+          this.hiddenCharOnly = this.hiddenChar.map(char => {
+            return char.char;
+          });
+        }
+      });
+    } else {
+      console.log('revealhidden kok finish');
+    }
+  }
+
+  minusScore(minus) {
+    this.score -= minus;
+
+    if (this.score <= 0) {
+      this.isDone = true;
+      this.score = 0;
+    }
   }
 };

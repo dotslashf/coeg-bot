@@ -113,4 +113,17 @@ client.on('message', async message => {
   }
 });
 
+client.on('message', async message => {
+  const answer = message.content.split(' ');
+
+  if (answer.length == 1 || answer[0].length == 1) {
+    const uniqueId = `${message.guild.id}-${message.channel.id}-${message.author.id}`;
+    client.commands.get('tebak').players.find(player => {
+      if (player.get(uniqueId)) {
+        client.commands.get('tebak').execute(message, message.content);
+      }
+    });
+  }
+});
+
 client.login(config.BOT_TOKEN[config.MODE]);
