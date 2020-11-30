@@ -21,8 +21,8 @@ module.exports = {
         })
       : (url = text);
 
-    await downloadImage(url, './img/imgAudio.png');
-    const generatorImage = new GeneratorVideo('badut', './img/imgAudio.png');
+    await downloadImage(url, './src/img/imgAudio.png');
+    const generatorImage = new GeneratorVideo('badut', './src/img/imgAudio.png');
     await generatorImage.generateVideo(message);
   },
 };

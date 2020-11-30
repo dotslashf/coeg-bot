@@ -90,7 +90,7 @@ class GeneratorRank {
       opacitySource: 1,
     });
 
-    await template.writeAsync('./img-output/template-rank.png');
+    await template.writeAsync('./src/img-output/template-rank.png');
   }
 }
 

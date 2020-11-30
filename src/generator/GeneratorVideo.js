@@ -11,17 +11,14 @@ class VideoGenerator {
   async generateVideo(message) {
     videoshow(this.image, this.setting)
       .audio(this.audio)
-      .save('./video/output.mp4')
-      .on('start', command => {
-        console.log('Command: ', command);
-      })
+      .save('./src/video/output.mp4')
       .on('error', (err, stdout, stderr) => {
         console.error('Error:', err);
         console.error('ffmpeg stderr:', stderr);
       })
       .on('end', output => {
         console.error('Uploading video:', output);
-        message.reply({ files: ['./video/output.mp4'] });
+        message.reply({ files: ['./src/video/output.mp4'] });
       });
   }
 }
