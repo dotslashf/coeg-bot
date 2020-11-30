@@ -40,13 +40,13 @@ client.on('message', async message => {
   const text = texts.slice(2).join(' ');
 
   try {
-    client.commands.get(command).execute(message, text);
     const now = new Date();
     console.log(
       `timestamp: ${now.getDate()}-${now.getMonth()} - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | command: ${command} ${text} | user: ${
         message.author.username
       }`
     );
+    client.commands.get(command).execute(message, text);
   } catch (error) {
     console.log(error);
     message.reply('Error!');
@@ -110,6 +110,19 @@ client.on('message', async message => {
 
     timestamps.set(message.guild.id + message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+  }
+});
+
+client.on('message', async message => {
+  const answer = message.content.split(' ');
+
+  if (answer.length == 1 || answer[0].length == 1) {
+    const uniqueId = `${message.guild.id}-${message.channel.id}-${message.author.id}`;
+    client.commands.get('tebak').players.find(player => {
+      if (player.get(uniqueId)) {
+        client.commands.get('tebak').execute(message, message.content);
+      }
+    });
   }
 });
 

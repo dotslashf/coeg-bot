@@ -9,64 +9,144 @@ module.exports = {
   name: 'tebak',
   description: 'tebak-tebakan kata yuk',
   emoji: '🎮',
+  players,
   extraCommand: '[new / char tebakan / kata tebakan]',
   async execute(message, text) {
     const player = players.get('players');
     const author = message.guild.member(message.author);
     const nickname = author.nickname ? author.nickname : author.user.username;
 
+    const uniqueId = `${message.guild.id}-${message.channel.id}-${message.author.id}`;
+
+    if (text.match(/[^a-z]+/g)) {
+      return message.reply('Hanya menerima huruf doang :V').then(msg => {
+        msg.delete({ timeout: 3000 });
+      });
+    }
+
     // New game
-    if (text == 'new' && !player.has(author.user.id)) {
-      console.log('New game');
+    if (text == 'new' && !player.has(uniqueId)) {
       const word = new GeneratorTebakKata();
-      console.log(word.word);
 
       const embedNewGame = new Discord.MessageEmbed()
-        .setTitle(`🎮 Tebak kata untuk: ${nickname}`)
-        .setDescription(`🎲 Current score: ${word.score}`)
+        .setTitle(`🎮 Tebak kata | ${nickname}`)
+        .setDescription(`🎲 ***Score: ${word.score}***`)
         .addField(
           'Tebak: ',
-          `**${word.hiddenWord.join(' ').toUpperCase()}**`,
+          `\`\`\`${word.hiddenWord.join(' ').toUpperCase()}\`\`\``,
           false
         )
-        .setColor('RANDOM');
+        .setColor('RED');
 
       const msg = await message.channel.send(embedNewGame);
-      player.set(author.user.id, { word: word, message: msg, wrongAnswer: [] });
+      player.set(uniqueId, { word, msg, wrongAnswer: [] });
     }
 
     // Answering without session
     else if (
       (text.split('').length > 1 || text.split('').length == 1) &&
-      !player.has(author.user.id)
+      !player.has(uniqueId)
     ) {
-      console.log('Answering without session');
-      message.reply('Lu belum main anjir');
+      message.reply('Lu belum main coeg').then(msg => {
+        msg.delete({ timeout: 3000 });
+      });
+    }
+    // show embed quiz
+    else if (text == 'show') {
+      let { word, msg, wrongAnswer } = player.get(uniqueId);
+
+      const embedAnswer = new Discord.MessageEmbed()
+        .setTitle(`🎮 Tebak kata | ${nickname}`)
+        .setDescription(`🎲 ***Score: ${word.score}***`)
+        .addField(
+          'Tebak: ',
+          `\`\`\`${word.hiddenWord.join(' ').toUpperCase()}\`\`\``,
+          false
+        )
+        .setColor('RED')
+        .addField(
+          `❌`,
+          `\`\`\`${wrongAnswer.join(' ').toUpperCase()}\`\`\``,
+          false
+        );
+
+      return msg.channel.send(embedAnswer);
+    }
+    // get clue
+    else if (text == 'clue') {
+      let { word, msg, wrongAnswer } = player.get(uniqueId);
+
+      if (word.revealHiddenChar()) {
+        word.minusScore(word.baseScoreModifier);
+      } else {
+        return msg.channel.send('Coeg 1 huruf masih minta clue').then(msg => {
+          msg.delete({ timeout: 3000 });
+        });
+      }
+
+      const embedAnswer = new Discord.MessageEmbed()
+        .setTitle(`🎮 Tebak kata | ${nickname}`)
+        .setDescription(`🎲 ***Score: ${word.score}***`)
+        .addField(
+          'Tebak: ',
+          `\`\`\`${word.hiddenWord.join(' ').toUpperCase()}\`\`\``,
+          false
+        )
+        .setColor('RED');
+
+      const listSalah = wrongAnswer
+        .map(a => {
+          return `• ${a}`;
+        })
+        .join('\n')
+        .toUpperCase();
+
+      if (wrongAnswer.length > 0) {
+        embedAnswer.addField(`❌`, `\`\`\`${listSalah}\`\`\``, false);
+      }
+
+      return msg.channel.send(embedAnswer);
     }
 
     // Answering with 1 char
     else if (text.split('').length == 1) {
-      console.log('Answering with 1 char');
       let char = text[0];
-      let { word, message, wrongAnswer } = player.get(author.user.id);
+      let { word, msg, wrongAnswer } = player.get(uniqueId);
 
-      word.answer(char);
+      if (wrongAnswer.includes(char)) {
+        return msg.channel
+          .send(`${char} sudah ada dalam list salah`)
+          .then(msg => {
+            msg.delete({ timeout: 3000 });
+          });
+      } else {
+        word.answer(char);
+      }
 
       const embedAnswer = new Discord.MessageEmbed()
-        .setTitle(`🎮 Tebak kata untuk: ${nickname}`)
-        .setDescription(`🎲 Current score: ${word.score}`)
+        .setTitle(`🎮 Tebak kata | ${nickname}`)
+        .setDescription(`🎲 ***Score: ${word.score}***`)
         .addField(
           'Tebak: ',
-          `**${word.hiddenWord.join(' ').toUpperCase()}**`,
+          `\`\`\`${word.hiddenWord.join(' ').toUpperCase()}\`\`\``,
           false
         )
-        .setColor('RANDOM');
+        .setColor('RED');
 
-      // Success answering quiz
-      if (word.word == word.hiddenWord.join('')) {
-        embedAnswer
-          .setDescription(`🎲 Score yang kamu dapatkan: \`${word.score}\``)
-          .setTitle(`✨✨💎 Selamat ${nickname} 💎✨✨`);
+      // Success answering 1 char
+      if (word.isDone) {
+        if (word.score > 0) {
+          embedAnswer.setTitle(`✨ Selamat ${nickname}`);
+          embedAnswer.setDescription(
+            `🎲 ***Score yang didapatkan: ${word.score}***`
+          );
+          embedAnswer.setColor('GREEN');
+        } else {
+          wrongAnswer.push(char);
+          embedAnswer.setDescription(
+            `🎲 ***Kamu tidak mendapatkan score apa apa***\n\n\`Jawaban: ${word.word.toUpperCase()}\``
+          );
+        }
 
         let scoreTotal = await getScoreTebak(message.guild.id, author.user.id);
         saveScoreTebak(
@@ -76,24 +156,22 @@ module.exports = {
           scoreTotal + word.score
         );
 
-        player.delete(author.user.id);
+        player.delete(uniqueId);
       }
       // Wrong answer
       else if (!word.hiddenCharOnly.includes(char)) {
         wrongAnswer.push(char);
-        embedAnswer.addField(
-          `\nList salah:`,
-          `**${wrongAnswer.join(', ').toUpperCase()}**`,
-          false
-        );
       }
-      // Correct but still showing list answers
-      else if (word.hiddenCharOnly.includes(char)) {
-        embedAnswer.addField(
-          `List salah:`,
-          `**${wrongAnswer.join(', ').toUpperCase()}**`,
-          false
-        );
+
+      const listSalah = wrongAnswer
+        .map(a => {
+          return `• ${a}`;
+        })
+        .join('\n')
+        .toUpperCase();
+
+      if (wrongAnswer.length > 0) {
+        embedAnswer.addField(`❌`, `\`\`\`${listSalah}\`\`\``, false);
       }
 
       message.reply(embedAnswer);
@@ -101,23 +179,40 @@ module.exports = {
 
     // Answering with 1 word
     else if (text.split('').length > 1 && text != 'new') {
-      console.log('Answering with 1 word');
+      let { word, msg, wrongAnswer } = player.get(uniqueId);
 
-      let { word, message, wrongAnswer } = player.get(author.user.id);
       const embedAnswer = new Discord.MessageEmbed()
-        .setTitle(`🎮 Tebak kata untuk: ${nickname}`)
-        .setDescription(`🎲 Current score: ${word.score}`)
-        .setColor('RANDOM');
+        .setTitle(`🎮 Tebak kata | ${nickname}`)
+        .setDescription(`🎲 ***Score: ${word.score}***`)
+        .setColor('RED');
 
-      if (word.answerWord(text)) {
-        embedAnswer
-          .setDescription(`🎲 Score yang kamu dapatkan: \`${word.score}\``)
-          .addField(
-            'Tebak: ',
-            `**${word.hiddenWord.join(' ').toUpperCase()}**`,
-            false
-          )
-          .setTitle(`✨✨💎 Selamat ${nickname} 💎✨✨`);
+      if (wrongAnswer.includes(text)) {
+        return msg.reply(`${text} sudah ada dalam list salah`).then(msg => {
+          msg.delete({ timeout: 3000 });
+        });
+      } else {
+        word.answerWord(text);
+      }
+
+      // Success answering 1 word
+      if (word.isDone) {
+        if (word.score > 0) {
+          embedAnswer.setTitle(`✨ Selamat ${nickname}`);
+          embedAnswer.setDescription(
+            `🎲 ***Score yang didapatkan: ${word.score}***`
+          );
+          embedAnswer.setColor('GREEN');
+        } else {
+          embedAnswer.setDescription(
+            `🎲 ***Kamu tidak mendapatkan score apa apa***\n\n\`Jawaban: ${word.word.toUpperCase()}\``
+          );
+        }
+
+        embedAnswer.addField(
+          'Tebak: ',
+          `\`\`\`${word.hiddenWord.join(' ').toUpperCase()}\`\`\``,
+          false
+        );
 
         let scoreTotal = await getScoreTebak(message.guild.id, author.user.id);
         saveScoreTebak(
@@ -127,52 +222,61 @@ module.exports = {
           scoreTotal + word.score
         );
 
-        player.delete(author.user.id);
-      } else {
-        wrongAnswer.push(text);
+        player.delete(uniqueId);
+      }
+      // wrong answer 1 word
+      else {
         embedAnswer
           .addField(
             'Tebak: ',
-            `**${word.hiddenWord.join(' ').toUpperCase()}**`,
+            `\`\`\`${word.hiddenWord.join(' ').toUpperCase()}\`\`\``,
             false
           )
-          .addField(
-            `\nList salah:`,
-            `**${wrongAnswer.join(', ').toUpperCase()}**`,
-            false
-          );
+
+          .setDescription(`🎲 ***Score: ${word.score}***`);
+
+        wrongAnswer.push(text);
       }
 
-      message.reply(embedAnswer);
+      const listSalah = wrongAnswer
+        .map(a => {
+          return `• ${a}`;
+        })
+        .join('\n')
+        .toUpperCase();
+
+      if (wrongAnswer.length > 0) {
+        embedAnswer.addField(`❌`, `\`\`\`${listSalah}\`\`\``, false);
+      }
+
+      msg.reply(embedAnswer);
     }
 
     // New game / abandon previous game
-    else if (text == 'new' && player.has(author.user.id)) {
+    else if (text == 'new' && player.has(uniqueId)) {
       const word = new GeneratorTebakKata();
-      message.reply('total score lu bakal dikurang 25 :V');
+      message.reply('Karena abandon game, scoremu bakal dikurang -10 :V');
 
       let scoreTotal = await getScoreTebak(message.guild.id, author.user.id);
       saveScoreTebak(
         message.guild.id,
         author.user.id,
         nickname,
-        scoreTotal - 25
+        scoreTotal - 10
       );
 
-      console.log(word.word);
-
       const embedNewGame = new Discord.MessageEmbed()
-        .setTitle(`🎮 Tebak kata untuk: ${nickname}`)
-        .setDescription(`🎲 Current score: ${word.score}`)
+        .setTitle(`🎮 Tebak kata | ${nickname}`)
+        .setDescription(`🎲 ***Score: ${word.score}***`)
         .addField(
           'Tebak: ',
-          `**${word.hiddenWord.join(' ').toUpperCase()}**`,
+          `\`\`\`${word.hiddenWord.join(' ').toUpperCase()}\`\`\``,
           false
         )
-        .setColor('RANDOM');
+        .setColor('RED');
 
       const msg = await message.channel.send(embedNewGame);
-      player.set(author.user.id, { word: word, message: msg, wrongAnswer: [] });
+      player.set(uniqueId, { word: word, msg: msg, wrongAnswer: [] });
     }
   },
 };

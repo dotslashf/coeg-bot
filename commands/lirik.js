@@ -42,9 +42,9 @@ module.exports = {
         const title = obj.response.song.full_title;
 
         embed.setTitle(title);
-        embed.setColor('RANDOM');
+        embed.setColor('YELLOW');
+        embed.setURL(`${song.url}`);
         embed.setDescription(song.lyrics);
-        embed.setFooter(`${song.url}`);
         embed.setThumbnail(song.albumArt);
 
         message.channel.send(embed);
