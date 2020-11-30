@@ -21,7 +21,7 @@ class VideoGenerator {
       })
       .on('end', output => {
         console.error('Uploading video:', output);
-        message.reply({ files: ['./video/output.mp4'] });
+        message.reply({ files: ['./src/video/output.mp4'] });
       });
   }
 }
