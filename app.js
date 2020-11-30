@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
 const config = require('./config.js');
-const fs = require('fs');
-const { countCoeg, random } = require('./util/helper');
-const { saveDataCoeg, getDataCoeg } = require('./util/firebase');
+const { countCoeg, random, getCommandsFiles } = require('./src/util/helper');
+const { saveDataCoeg, getDataCoeg } = require('./src/util/firebase');
 
 const client = new Discord.Client();
 const cooldowns = new Discord.Collection();
@@ -10,19 +9,20 @@ const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
 cooldowns.set('coeg', new Discord.Collection());
 
-const commandFiles = fs
-  .readdirSync('./commands')
-  .filter(file => file.endsWith('.js'));
+(async () => {
+  const commandFiles = await getCommandsFiles();
 
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
-}
+  for (const file of commandFiles) {
+    const command = require(file.path);
+    client.commands.set(command.name, command);
+  }
+})();
 
 const prefix = config.PREFIX;
 
 client.on('ready', () => {
   console.log(`coeg-bot is serving in mode: ${config.MODE}! 🚀`);
+  client.user.setActivity('playing with Coeg-BOY');
 });
 
 client.on('message', async message => {
@@ -40,16 +40,15 @@ client.on('message', async message => {
   const text = texts.slice(2).join(' ');
 
   try {
-    const now = new Date();
     console.log(
-      `timestamp: ${now.getDate()}-${now.getMonth()} - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | command: ${command} ${text} | user: ${
-        message.author.username
-      }`
+      `timestamp: ${new Date().toLocaleString()} | command: ${command} ${text} | server: ${
+        message.guild.name
+      } | user: ${message.author.username}`
     );
     client.commands.get(command).execute(message, text);
   } catch (error) {
     console.log(error);
-    message.reply('Error!');
+    message.channel.send('Error!');
   }
 });
 
