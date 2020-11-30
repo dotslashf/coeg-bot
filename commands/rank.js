@@ -65,41 +65,48 @@ module.exports = {
       );
 
       const embed = new Discord.MessageEmbed()
-        .setTitle(`🎬 SCOREBOARD TEBAK KATA ${message.guild.name} 🎬`)
-        .setColor('GREEN')
-        .setDescription(
-          `✨ **${nickname} posisi ${pos} dengan score ${score}** ✨`
-        );
+        .setTitle(`🏅 Scoreboard tebak kata ${message.guild.name}`)
+        .setColor('GREEN');
+      user
+        ? embed.setDescription(
+            `✨ **${nickname} posisi ${pos} dengan score ${score}**`
+          )
+        : embed.setDescription(
+            `✨ **kamu posisi ${pos} dengan score ${score}**`
+          );
 
       if (pos == 0) {
         embed.setDescription(
-          `❌ **${nickname} belum pernah bermain tebak kata** ❌`
+          `❌ **${nickname} belum pernah bermain tebak kata**`
         );
       }
 
-      const limit = resultsSorted.length > 5 ? 5 : resultsSorted.length;
+      const limit = resultsSorted.length > 3 ? 3 : resultsSorted.length;
 
       let listJuaraUmum = [];
+      const medal = ['🥇', '🥈', '🥉'];
       for (let i = 0; i <= limit - 1; i++) {
         const element = resultsSorted[i];
 
         if (element) {
           const { _, value } = element;
           if (pos - 1 == i) {
-            const str = `${i + 1} | ${value.username} | ${value.score}`;
+            const str = `${medal[i]} | ${value.username} | ${value.score}`;
             let spaces = '';
             for (let i = 0; i < str.length; i++) {
               spaces += '=';
             }
             listJuaraUmum.push(`${str}\n${spaces}`);
           } else {
-            listJuaraUmum.push(`${i + 1} | ${value.username} | ${value.score}`);
+            listJuaraUmum.push(
+              `${medal[i]} | ${value.username} | ${value.score}`
+            );
           }
         }
       }
 
       embed.addField(
-        'Top 5 Juara Umum: ',
+        'Top 3 Juara Umum: ',
         `\`\`\`asciidoc\n${listJuaraUmum.join('\n')}\`\`\``
       );
 
