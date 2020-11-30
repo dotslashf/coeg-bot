@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { capitalize } = require('../util/helper');
+const { capitalize } = require('../../util/helper');
 
 module.exports = {
   name: 'tolong',

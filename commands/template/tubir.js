@@ -1,4 +1,4 @@
-const GeneratorTweet = require('../generator/GeneratorTweet');
+const GeneratorTweet = require('../../generator/GeneratorTweet');
 
 const generatorTweet = new GeneratorTweet('tubir');
 

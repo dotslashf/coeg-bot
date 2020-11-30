@@ -1,11 +1,12 @@
-const GeneratorTweet = require('../generator/GeneratorTweet');
+const Mock = require('../../util/mock');
+const GeneratorTweet = require('../../generator/GeneratorTweet');
 
-const generatorTweet = new GeneratorTweet('fwb');
+const generatorTweet = new GeneratorTweet('mock');
 
 module.exports = {
-  name: 'fwb',
-  description: 'buat template tweet fwbase',
-  emoji: '👩‍❤️‍💋‍👨',
+  name: 'mock',
+  description: 'buat template tweet mockthistweet',
+  emoji: '🤔',
   extraCommand: '[text untuk dimasukkan ke dalam template]',
   async execute(message, text) {
     if (text === ' ' || text === '' || text == null) {
@@ -16,7 +17,10 @@ module.exports = {
         });
     }
 
-    const imagePath = await generatorTweet.generateTemplate(text);
+    const mockText = new Mock(text);
+    const imagePath = await generatorTweet.generateTemplate(
+      mockText.mockText()
+    );
     message.reply({ files: [imagePath] });
   },
 };

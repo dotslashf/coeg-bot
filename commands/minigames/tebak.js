@@ -1,6 +1,6 @@
-const GeneratorTebakKata = require('../generator/GeneratorTebakKata');
+const GeneratorTebakKata = require('../../generator/GeneratorTebakKata');
 const Discord = require('discord.js');
-const { saveScoreTebak, getScoreTebak } = require('../util/firebase');
+const { saveScoreTebak, getScoreTebak } = require('../../util/firebase');
 
 const players = new Discord.Collection();
 players.set('players', new Discord.Collection());

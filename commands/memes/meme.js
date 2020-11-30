@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const got = require('got');
-const config = require('../config');
-const { random } = require('../util/helper');
+const config = require('../../config');
+const { random } = require('../../util/helper');
 
 module.exports = {
   name: 'meme',

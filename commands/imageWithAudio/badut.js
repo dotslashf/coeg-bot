@@ -1,5 +1,5 @@
-const { downloadImage } = require('../util/helper');
-const GeneratorVideo = require('../generator/GeneratorVideo');
+const { downloadImage } = require('../../util/helper');
+const GeneratorVideo = require('../../generator/GeneratorVideo');
 
 module.exports = {
   name: 'badut',

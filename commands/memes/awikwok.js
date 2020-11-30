@@ -1,12 +1,12 @@
 const fs = require('fs');
-const baseFile = './img/cringe/';
+const baseFile = './img/awikwok/';
 const files = fs.readdirSync(baseFile);
-const { random } = require('../util/helper');
+const { random } = require('../../util/helper');
 
 module.exports = {
-  name: 'cringe',
-  description: 'buset lu cringe bangettt',
-  emoji: '🥴',
+  name: 'awikwok',
+  description: 'awikwok',
+  emoji: '＼⍩⃝／',
   execute(message, text) {
     const n = random(files.length);
     const selectedImage = files[n];

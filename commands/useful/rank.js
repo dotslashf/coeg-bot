@@ -1,10 +1,10 @@
-const GeneratorRank = require('../generator/GeneratorRank');
-const { getDataCoeg, rankCoeg, rankScoreTebak } = require('../util/firebase');
+const GeneratorRank = require('../../generator/GeneratorRank');
+const { getDataCoeg, rankCoeg, rankScoreTebak } = require('../../util/firebase');
 const {
   downloadImage,
   maskImage,
   getUserIdFromMention,
-} = require('../util/helper');
+} = require('../../util/helper');
 const Discord = require('discord.js');
 
 const generatorRank = new GeneratorRank();

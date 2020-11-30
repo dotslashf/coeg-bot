@@ -1,10 +1,11 @@
-const { downloadImage } = require('../util/helper');
-const GeneratorVideo = require('../generator/GeneratorVideo');
+const { downloadImage } = require('../../util/helper');
+const GeneratorVideo = require('../../generator/GeneratorVideo');
+const { filterBlackWhite } = require('../../util/helper');
 
 module.exports = {
-  name: 'ketawa',
-  description: 'tambah sound effect ketawa',
-  emoji: '😂',
+  name: 'sad',
+  description: 'tambah lagu sad ke image',
+  emoji: '😔',
   extraCommand: '[attachment atau link image]',
   async execute(message, text) {
     if (text === ' ' || text === '' || text == null) {
@@ -22,7 +23,12 @@ module.exports = {
       : (url = text);
 
     await downloadImage(url, './img/imgAudio.png');
-    const generatorImage = new GeneratorVideo('ketawa', './img/imgAudio.png');
+    filterBlackWhite('./img/imgAudio.png');
+
+    const generatorImage = new GeneratorVideo(
+      'sad',
+      './img-output/imgAudio.png'
+    );
     await generatorImage.generateVideo(message);
   },
 };
