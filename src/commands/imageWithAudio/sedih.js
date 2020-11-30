@@ -21,8 +21,8 @@ module.exports = {
         })
       : (url = text);
 
-    await downloadImage(url, './img/imgAudio.png');
-    filterBlackWhite('./img/imgAudio.png');
+    await downloadImage(url, './src/img/imgAudio.png');
+    filterBlackWhite('./src/img/imgAudio.png');
 
     const generatorImage = new GeneratorVideo(
       'sedih',
