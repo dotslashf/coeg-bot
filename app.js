@@ -42,14 +42,14 @@ client.on('message', async message => {
   try {
     const now = new Date();
     console.log(
-      `timestamp: ${now.getDate()}-${now.getMonth()} - ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} | command: ${command} ${text} | user: ${
-        message.author.username
-      }`
+      `timestamp: ${new Date().toLocaleString()} | command: ${command} ${text} | server: ${
+        message.guild.name
+      } | user: ${message.author.username}`
     );
     client.commands.get(command).execute(message, text);
   } catch (error) {
     console.log(error);
-    message.reply('Error!');
+    message.channel.send('Error!');
   }
 });
 
