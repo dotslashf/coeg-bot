@@ -1,5 +1,5 @@
 const { getSong } = require('genius-lyrics-api');
-const config = require('../../config');
+const config = require('../../../config');
 const Discord = require('discord.js');
 const request = require('request');
 

@@ -1,5 +1,5 @@
 const firebase = require('firebase/app');
-const config = require('../config.js');
+const config = require('../../config.js');
 
 require('firebase/database');
 

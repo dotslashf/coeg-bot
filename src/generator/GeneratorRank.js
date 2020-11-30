@@ -1,6 +1,6 @@
 const Jimp = require('jimp');
 const { sleep } = require('../util/helper');
-const config = require('../config.js');
+const config = require('../../config');
 
 class GeneratorRank {
   async generateRank(username, counter, rank) {
@@ -9,7 +9,7 @@ class GeneratorRank {
 
     await Jimp.read(image)
       .then(async image => {
-        await Jimp.loadFont('./font/Raleway-Medium.fnt').then(font => {
+        await Jimp.loadFont('./src/font/Raleway-Medium.fnt').then(font => {
           image.print(
             font,
             0,
@@ -32,19 +32,21 @@ class GeneratorRank {
     // rank
     await Jimp.read(outputImage)
       .then(async image => {
-        await Jimp.loadFont('./font/AvertaDemoPE-Regular.fnt').then(font => {
-          image.print(
-            font,
-            295,
-            353,
-            {
-              text: rank,
-            },
-            image.bitmap.width,
-            image.bitmap.height
-          );
-          image.write(outputImage);
-        });
+        await Jimp.loadFont('./src/font/AvertaDemoPE-Regular.fnt').then(
+          font => {
+            image.print(
+              font,
+              295,
+              353,
+              {
+                text: rank,
+              },
+              image.bitmap.width,
+              image.bitmap.height
+            );
+            image.write(outputImage);
+          }
+        );
       })
       .catch(err => {
         console.log('Generate rank step 2: ', err);
@@ -54,19 +56,21 @@ class GeneratorRank {
     // count
     await Jimp.read(outputImage)
       .then(async image => {
-        await Jimp.loadFont('./font/AvertaDemoPE-Regular.fnt').then(font => {
-          image.print(
-            font,
-            245,
-            303.5,
-            {
-              text: counter,
-            },
-            image.bitmap.width,
-            image.bitmap.height
-          );
-          image.write(outputImage);
-        });
+        await Jimp.loadFont('./src/font/AvertaDemoPE-Regular.fnt').then(
+          font => {
+            image.print(
+              font,
+              245,
+              303.5,
+              {
+                text: counter,
+              },
+              image.bitmap.width,
+              image.bitmap.height
+            );
+            image.write(outputImage);
+          }
+        );
       })
       .catch(err => {
         console.log('Generate rank step 3: ', err);

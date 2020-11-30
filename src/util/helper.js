@@ -73,7 +73,7 @@ const getUserIdFromMention = mention => {
   }
 };
 
-const getCommandsFiles = async (path = './commands/') => {
+const getCommandsFiles = async (path = './src/commands/') => {
   const entries = await fs.readdir(path, { withFileTypes: true });
 
   const files = entries

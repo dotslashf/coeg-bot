@@ -1,5 +1,5 @@
 const videoshow = require('videoshow');
-const config = require('../config.js');
+const config = require('../../config.js');
 
 class VideoGenerator {
   constructor(type, image) {

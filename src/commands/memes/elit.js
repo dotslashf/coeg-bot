@@ -1,5 +1,5 @@
 const fs = require('fs');
-const baseFile = './img/elit/';
+const baseFile = './src/img/elit/';
 const files = fs.readdirSync(baseFile);
 const { random } = require('../../util/helper');
 

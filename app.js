@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const config = require('./config.js');
-const { countCoeg, random, getCommandsFiles } = require('./util/helper');
-const { saveDataCoeg, getDataCoeg } = require('./util/firebase');
+const { countCoeg, random, getCommandsFiles } = require('./src/util/helper');
+const { saveDataCoeg, getDataCoeg } = require('./src/util/firebase');
 
 const client = new Discord.Client();
 const cooldowns = new Discord.Collection();

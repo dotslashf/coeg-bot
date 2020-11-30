@@ -1,6 +1,6 @@
 const Jimp = require('jimp');
 const { sleep } = require('../util/helper');
-const config = require('../config.js');
+const config = require('../../config.js');
 
 class GeneratorTweet {
   constructor(type) {
@@ -10,7 +10,7 @@ class GeneratorTweet {
   async generateTemplate(caption) {
     await Jimp.read(this.originalImage)
       .then(async image => {
-        await Jimp.loadFont('./font/segoeui.fnt').then(font => {
+        await Jimp.loadFont('./src/font/segoeui.fnt').then(font => {
           // 65, 140
           image.print(
             font,
