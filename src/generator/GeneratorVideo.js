@@ -12,9 +12,6 @@ class VideoGenerator {
     videoshow(this.image, this.setting)
       .audio(this.audio)
       .save('./src/video/output.mp4')
-      .on('start', command => {
-        console.log('Command: ', command);
-      })
       .on('error', (err, stdout, stderr) => {
         console.error('Error:', err);
         console.error('ffmpeg stderr:', stderr);
