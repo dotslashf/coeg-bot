@@ -40,7 +40,7 @@ const countCoeg = texts => {
 const filterBlackWhite = filename => {
   Jimp.read(filename, function (err, image) {
     if (err) throw err;
-    image.greyscale().write('./img-output/imgAudio.png');
+    image.greyscale().write('./src/img-output/imgAudio.png');
   });
 };
 

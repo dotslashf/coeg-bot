@@ -26,7 +26,7 @@ module.exports = {
 
     const generatorImage = new GeneratorVideo(
       'sedih',
-      './img-output/imgAudio.png'
+      './src/img-output/imgAudio.png'
     );
     await generatorImage.generateVideo(message);
   },
