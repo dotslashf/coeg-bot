@@ -52,7 +52,7 @@ const maskImage = async imagePath => {
   const image = await Jimp.read(imagePath);
 
   image.circle();
-  image.write('./img-output/avatar.png');
+  image.write('./src/img-output/avatar.png');
 };
 
 const capitalize = string => {

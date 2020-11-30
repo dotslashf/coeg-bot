@@ -1,5 +1,9 @@
 const GeneratorRank = require('../../generator/GeneratorRank');
-const { getDataCoeg, rankCoeg, rankScoreTebak } = require('../../util/firebase');
+const {
+  getDataCoeg,
+  rankCoeg,
+  rankScoreTebak,
+} = require('../../util/firebase');
 const {
   downloadImage,
   maskImage,
@@ -31,8 +35,8 @@ module.exports = {
 
     // rank coeg
     if (command == 'coeg') {
-      await downloadImage(avatarImg, './img/avatar.png');
-      await maskImage('./img/avatar.png');
+      await downloadImage(avatarImg, './src/img/avatar.png');
+      await maskImage('./src/img/avatar.png');
 
       var coegCount = null;
       try {
@@ -48,7 +52,10 @@ module.exports = {
         `${rank.toString()}`
       );
 
-      await generatorRank.placeAvatar(imageRankPath, './img-output/avatar.png');
+      await generatorRank.placeAvatar(
+        imageRankPath,
+        './src/img-output/avatar.png'
+      );
 
       coegCount == 0
         ? message.channel.send(
