@@ -10,9 +10,11 @@ module.exports = class GeneratorTebakKata {
     this.getHiddenChar();
     this.nChar = this.generateNChar();
     this.score = 100;
-    this.scoreModifier = Math.floor(100 / (this.word.length - this.nChar));
+    this.baseScoreModifier = Math.floor(100 / this.hiddenChar.length);
+    this.wrongAnswerMinus = Math.floor(this.baseScoreModifier / 2);
     this.hiddenCharOnly = [];
     this.isDone = false;
+    this.underScoreNChar = this.hiddenChar.length;
   }
 
   generateNChar() {
@@ -63,20 +65,27 @@ module.exports = class GeneratorTebakKata {
   }
 
   answer(char) {
-    this.hiddenChar.forEach(element => {
-      if (element.char == char.toLowerCase()) {
-        this.hiddenWord[element.i] = char;
-      }
-    });
-
     this.hiddenCharOnly = this.hiddenChar.map(char => {
       return char.char;
     });
 
-    // reveal char if wrong
+    if (this.hiddenCharOnly.includes(char)) {
+      this.hiddenChar.forEach((element, index) => {
+        if (element.char == char.toLowerCase()) {
+          this.hiddenWord[element.i] = char;
+          this.underScoreNChar -= 1;
+        }
+      });
+
+      this.hiddenCharOnly = this.hiddenChar.map(char => {
+        return char.char;
+      });
+    }
+
+
+    // wrong answer
     if (!this.hiddenCharOnly.includes(char)) {
-      this.minusScore(this.scoreModifier);
-      this.revealHiddenChar();
+      this.minusScore(this.wrongAnswerMinus);
     }
 
     if (this.word == this.hiddenWord.join('')) {
@@ -93,35 +102,31 @@ module.exports = class GeneratorTebakKata {
 
     // correct answer
     if (this.word == word.toLowerCase()) {
-      this.hiddenWord.map((_, index) => {
-        this.hiddenWord[index] = tempWord[index];
-      });
+      this.hiddenWord = tempWord;
       this.isDone = true;
     }
     // wrong answer
     else {
       this.isDone = false;
-      this.minusScore(this.scoreModifier);
-      this.revealHiddenChar();
+      this.minusScore(this.wrongAnswerMinus);
     }
   }
 
   revealHiddenChar() {
     // only reveal char if only if hiddenchar > 1
-    console.log(this.hiddenCharOnly.length, this.hiddenChar.length);
-    if (this.hiddenCharOnly.length > 1) {
+    if (this.underScoreNChar > 1) {
       const n = this.hiddenWord.indexOf('_');
       this.hiddenChar.map(element => {
         if (element.i == n) {
           this.hiddenWord[n] = element.char;
           this.hiddenChar.splice(0, 1);
+          this.underScoreNChar -= 1;
           this.hiddenCharOnly = this.hiddenChar.map(char => {
             return char.char;
           });
         }
       });
-    } else {
-      console.log('revealhidden kok finish');
+      return true;
     }
   }
 
