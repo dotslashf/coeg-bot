@@ -1,4 +1,4 @@
-const listWords = require('../listWords');
+const listWords = require('../util/listWords');
 const { random } = require('../util/helper');
 
 module.exports = class GeneratorTebakKata {
@@ -81,7 +81,6 @@ module.exports = class GeneratorTebakKata {
         return char.char;
       });
     }
-
 
     // wrong answer
     if (!this.hiddenCharOnly.includes(char)) {
