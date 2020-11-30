@@ -11,7 +11,7 @@ class VideoGenerator {
   async generateVideo(message) {
     videoshow(this.image, this.setting)
       .audio(this.audio)
-      .save('./video/output.mp4')
+      .save('./src/video/output.mp4')
       .on('start', command => {
         console.log('Command: ', command);
       })
