@@ -1,4 +1,5 @@
-const fs = require('fs');
+const { promises: fs } = require('fs');
+const fileStream = require('fs');
 const Jimp = require('jimp');
 const { default: Axios } = require('axios');
 
@@ -9,7 +10,7 @@ const sleep = ms => {
 };
 
 const downloadImage = async (url, filepath) => {
-  const writer = fs.createWriteStream(filepath);
+  const writer = fileStream.createWriteStream(filepath);
 
   const response = await Axios({
     url,
@@ -72,6 +73,21 @@ const getUserIdFromMention = mention => {
   }
 };
 
+const getCommandsFiles = async (path = './commands/') => {
+  const entries = await fs.readdir(path, { withFileTypes: true });
+
+  const files = entries
+    .filter(file => !file.isDirectory())
+    .map(file => ({ ...file, path: path + file.name }));
+
+  const folders = entries.filter(folder => folder.isDirectory());
+
+  for (const folder of folders)
+    files.push(...(await getCommandsFiles(`${path}${folder.name}/`)));
+
+  return files;
+};
+
 module.exports = {
   sleep,
   downloadImage,
@@ -81,4 +97,5 @@ module.exports = {
   maskImage,
   capitalize,
   getUserIdFromMention,
+  getCommandsFiles,
 };
