@@ -22,7 +22,7 @@ const prefix = config.PREFIX;
 
 client.on('ready', () => {
   console.log(`coeg-bot is serving in mode: ${config.MODE}! 🚀`);
-  client.user.setActivity('playing with Coeg-BOY');
+  client.user.setActivity('with Coeg-BOY');
 });
 
 client.on('message', async message => {
