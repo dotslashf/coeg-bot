@@ -1,11 +1,16 @@
 const { random } = require('../../util/helper');
 
 module.exports = {
-  name: 'njir',
-  description: 'njir',
-  emoji: '🇳',
+  name: 'bjir',
+  description: 'bjirr',
+  emoji: '🅱️',
   execute(message, text) {
     const replies = [
+      'yoi',
+      'vroohhh',
+      'coeg :V',
+      'awikwok',
+      'login',
       'gue sih owh aja',
       'buset bro',
       'hyung',
@@ -22,11 +27,6 @@ module.exports = {
       'akwoakwokaoaka',
       'ba dum tss',
       'pret',
-      'yoi',
-      'vroohhh',
-      'coeg :V',
-      'awikwok',
-      'login',
     ];
     const n = random(replies.length);
 
